@@ -1,0 +1,792 @@
+{
+	"info": {
+		"_postman_id": "",
+		"name": "Gossip API",
+		"description": "This collection of requests are to be used to test Gossip's endpoints.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "GetUsers",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"",
+							"pm.test(\"Content-Type is present\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"});",
+							"",
+							"pm.test(\"ID of first user is 1\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData[0].id).to.eql(1);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{gatewayBaseUrl}}/users",
+					"host": [
+						"{{gatewayBaseUrl}}"
+					],
+					"path": [
+						"users"
+					]
+				},
+				"description": "GetUsers request should fetch a list of users. The users will come from the users table in Gossip's database."
+			},
+			"response": []
+		},
+		{
+			"name": "GetPosts",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"",
+							"pm.test(\"Content-Type is present\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"});",
+							"",
+							"pm.test(\"Post's author_id matches the user id embeded in response\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData[0].author_id).to.eql(jsonData[0].user.id)",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{gatewayBaseUrl}}/posts",
+					"host": [
+						"{{gatewayBaseUrl}}"
+					],
+					"path": [
+						"posts"
+					]
+				},
+				"description": "GetPosts request should retrieve a list of posts from the database"
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response time is less than 200ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"email\": \"nova@email.com\",\n\t\"password\": \"dummypassword\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{gatewayBaseUrl}}/login",
+					"host": [
+						"{{gatewayBaseUrl}}"
+					],
+					"path": [
+						"login"
+					]
+				},
+				"description": "Login request tests our login process"
+			},
+			"response": []
+		},
+		{
+			"name": "UpdatePost",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"title\": \"Post1 Title\",\n    \"content\": \"Content of post1\",\n\t\"author_id\": 1\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{gatewayBaseUrl}}/posts/1",
+					"host": [
+						"{{gatewayBaseUrl}}"
+					],
+					"path": [
+						"posts",
+						"1"
+					]
+				},
+				"description": "UpdatePost will test updating a post using the PUT method"
+			},
+			"response": []
+		},
+		{
+			"name": "GetPrivateUsers",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"",
+							"pm.test(\"Content-Type is present\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/private/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"private",
+						"users"
+					]
+				},
+				"description": "GetPrivateUsers is the same as GetUsers but requires authentication, it's purpose is to be called in our pre-script that takes care of authentication"
+			},
+			"response": []
+		},
+		{
+			"name": "UnauthorizedUpdatePost",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "",
+						"exec": [
+							"pm.test(\"Status code is 401\", function () {",
+							"    pm.response.to.have.status(401);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"title\": \"Post2 Title\",\n    \"content\": \"Content of post2\",\n\t\"author_id\": 2\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{gatewayBaseUrl}}/posts/2",
+					"host": [
+						"{{gatewayBaseUrl}}"
+					],
+					"path": [
+						"posts",
+						"2"
+					]
+				},
+				"description": "UnauthorizedUpdatePost will test the scenario of a user trying to update another user's post. The expected result is a 401:Unauthorized."
+			},
+			"response": []
+		},
+		{
+			"name": "UnauthorizeDeleteOtherUser",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "",
+						"exec": [
+							"pm.test(\"Deleting another user's account is unauthorized\", function() {",
+							"    pm.response.to.have.status(401);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{gatewayBaseUrl}}/users/2",
+					"host": [
+						"{{gatewayBaseUrl}}"
+					],
+					"path": [
+						"users",
+						"2"
+					]
+				},
+				"description": "UnauthorizeDeleteOtherUser test request confirms that a user x is not authorized to delete the account of another user y. Expected result is a 401 Unauthorized"
+			},
+			"response": []
+		},
+		{
+			"name": "CreateUser",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "",
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"var userID = jsonData.id;",
+							"",
+							"pm.environment.set(\"newUserID\", userID);",
+							"",
+							"pm.test(\"New user return status is 201 Created\", function() {",
+							"    pm.response.to.have.status(201);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"nickname\": \"{{newUserNickName}}\",\n\t\"email\": \"{{newUserEmail}}\",\n\t\"password\": \"{{newUserPassword}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{gatewayBaseUrl}}/users",
+					"host": [
+						"{{gatewayBaseUrl}}"
+					],
+					"path": [
+						"users"
+					]
+				},
+				"description": "CreateUser tests creating a user via the gossip api. \n\nThis test has 1 test as a dependant: 'DeleteUser'. The user created as part of this test will be deleted as part of the 'DeleteUser' test. \n\nIt is important that we test the ability to set the userID of the created User so that it can be available to the 'DeleteUser' test, otherwise both tests will fail."
+			},
+			"response": []
+		},
+		{
+			"name": "GetUser",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "",
+						"exec": [
+							"pm.test(\"New user return status is 200\", function() {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{gatewayBaseUrl}}/users/{{newUserID}}",
+					"host": [
+						"{{gatewayBaseUrl}}"
+					],
+					"path": [
+						"users",
+						"{{newUserID}}"
+					]
+				},
+				"description": "GetUser tests that we can retrieve information for a user with the specified userID. This endpoint does not require authentication."
+			},
+			"response": []
+		},
+		{
+			"name": "AuthenticatedGetUser",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{newuserjwttoken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{gatewayBaseUrl}}/users/{{newUserID}}",
+					"host": [
+						"{{gatewayBaseUrl}}"
+					],
+					"path": [
+						"users",
+						"{{newUserID}}"
+					]
+				},
+				"description": "AuthenticatedGetUser is similar to the GetUser request. The difference is that this endpoint may return information that cannot be seen by other users so it requires authentication."
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteUser",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "",
+						"exec": [
+							"var authServiceUrl = pm.environment.get('authService')",
+							"var gatewayBaseUrl = pm.environment.get('gatewayBaseUrl')",
+							"var email = pm.environment.get('newUserEmail')",
+							"var password = pm.environment.get('newUserPassword')",
+							"var newUserID = pm.environment.get('newUserID')",
+							"",
+							"var authenticatedGetUserUrl = gatewayBaseUrl + \"/private/users/\" + newUserID",
+							"",
+							"var sdk = require('postman-collection');",
+							"",
+							"var isValidTokenRequest = new sdk.Request({",
+							"    url: authenticatedGetUserUrl,",
+							"    method: 'GET',",
+							"    header: [",
+							"        new sdk.Header({",
+							"            key: 'content-type',",
+							"            value: 'application/json',",
+							"        }),",
+							"        new sdk.Header({",
+							"            key: 'acccept',",
+							"            value: 'application/json',",
+							"        }),",
+							"        new sdk.Header({",
+							"            key: 'Authorization',",
+							"            value: 'Bearer ' + pm.globals.get(\"newuserjwttoken\"),",
+							"        }),",
+							"    ]",
+							"});",
+							"",
+							"pm.sendRequest(isValidTokenRequest, function (err, response) {",
+							"    if (response.code === 401) {",
+							"        console.log(\"isValidTokenRequest was called for newuser, got 401 back\")",
+							"        refreshToken();",
+							"    }",
+							"});",
+							"",
+							"function refreshToken() {",
+							"    var tokenRequest = new sdk.Request({",
+							"    url: authServiceUrl,",
+							"    method: 'POST',",
+							"    header: [",
+							"        new sdk.Header({",
+							"            key: 'content-type',",
+							"            value: 'application/json'",
+							"        }),",
+							"        new sdk.Header({",
+							"            key: 'acccept',",
+							"            value: 'application/json'",
+							"        }),",
+							"    ],",
+							"    body: {",
+							"        mode: 'raw',",
+							"        raw: JSON.stringify({",
+							"            email: email,",
+							"            password: password",
+							"        })",
+							"    } ",
+							"  });",
+							"  ",
+							"  pm.sendRequest(tokenRequest, function (err, response) {",
+							"      if (err) {",
+							"          throw err;",
+							"      }",
+							"      ",
+							"      if (response.code !== 200) {",
+							"          throw new Error('Could not log in.');",
+							"      }",
+							"      ",
+							"      pm.globals.set(\"newuserjwttoken\", response.json());",
+							"      console.log(`New user's token has been set: ${response.json()}`);",
+							"  });",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "",
+						"exec": [
+							"pm.test(\"Status code is 204 No Content\", function () {",
+							"    pm.response.to.have.status(204);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{newuserjwttoken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{gatewayBaseUrl}}/users/{{newUserID}}",
+					"host": [
+						"{{gatewayBaseUrl}}"
+					],
+					"path": [
+						"users",
+						"{{newUserID}}"
+					]
+				},
+				"description": "DeleteUser request tests the ability to delete a user. \nThis test should be ran after the 'CreateUser' test. CreateUser creates a user and populates the environment variables used in this test such as the userID for the user this test will be deleting.\n\nThe User must be signed in (token required) in order to be deleted. For this reason the test has pre-request scripts that allow us to populate the newuserjwttoken that is used to authenticate the DELETE request."
+			},
+			"response": []
+		},
+		{
+			"name": "CreatePost",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "",
+						"exec": [
+							"pm.test(\"Post is created with status code 201\", function() {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"var jsonData = pm.response.json();",
+							"var postID = jsonData.id;",
+							"",
+							"pm.environment.set(\"newPostID\", postID);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"title\": \"Post created by test\",\n\t\"author_id\": 1,\n\t\"content\": \"This is the content of a post created by CreatePost test request.\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{gatewayBaseUrl}}/posts",
+					"host": [
+						"{{gatewayBaseUrl}}"
+					],
+					"path": [
+						"posts"
+					]
+				},
+				"description": "CreatePost request tests that we are able to create a post"
+			},
+			"response": []
+		},
+		{
+			"name": "GetPost",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "",
+						"exec": [
+							"pm.test(\"Post retrieved with status code 200\", function() {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response time to get post is less than 200ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{gatewayBaseUrl}}/posts/{{newPostID}}",
+					"host": [
+						"{{gatewayBaseUrl}}"
+					],
+					"path": [
+						"posts",
+						"{{newPostID}}"
+					]
+				},
+				"description": "GetPost tests that we are able to retrieve a post with a specified postID. The postID in this test is generated by the CreatePost request."
+			},
+			"response": []
+		},
+		{
+			"name": "DeletePost",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "",
+						"exec": [
+							"pm.test(\"Post was deleted with status code 204\", function() {",
+							"    pm.response.to.have.status(204);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{gatewayBaseUrl}}/posts/{{newPostID}}",
+					"host": [
+						"{{gatewayBaseUrl}}"
+					],
+					"path": [
+						"posts",
+						"{{newPostID}}"
+					]
+				},
+				"description": "DeletePost tests that we have the ability to delete a post.\nThis test requires authentication."
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{jwttoken}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "",
+				"type": "text/javascript",
+				"exec": [
+					"var authServiceUrl = pm.environment.get('authService')",
+					"var gatewayBaseUrl = pm.environment.get('gatewayBaseUrl')",
+					"var email = pm.environment.get('email')",
+					"var password = pm.environment.get('password')",
+					"",
+					"var sdk = require('postman-collection');",
+					"",
+					"var isValidTokenRequest = new sdk.Request({",
+					"    url: gatewayBaseUrl + \"/private/users\",",
+					"    method: 'GET',",
+					"    header: [",
+					"        new sdk.Header({",
+					"            key: 'content-type',",
+					"            value: 'application/json',",
+					"        }),",
+					"        new sdk.Header({",
+					"            key: 'acccept',",
+					"            value: 'application/json',",
+					"        }),",
+					"        new sdk.Header({",
+					"            key: 'Authorization',",
+					"            value: 'Bearer ' + pm.globals.get(\"jwttoken\"),",
+					"        }),",
+					"    ]",
+					"});",
+					"",
+					"pm.sendRequest(isValidTokenRequest, function (err, response) {",
+					"    if (response.code === 401) {",
+					"        console.log(\"isValidTokenRequest was called, got 401 back\")",
+					"        refreshToken();",
+					"    }",
+					"});",
+					"",
+					"function refreshToken() {",
+					"    var tokenRequest = new sdk.Request({",
+					"    url: authServiceUrl,",
+					"    method: 'POST',",
+					"    header: [",
+					"        new sdk.Header({",
+					"            key: 'content-type',",
+					"            value: 'application/json'",
+					"        }),",
+					"        new sdk.Header({",
+					"            key: 'acccept',",
+					"            value: 'application/json'",
+					"        }),",
+					"    ],",
+					"    body: {",
+					"        mode: 'raw',",
+					"        raw: JSON.stringify({",
+					"            email: email,",
+					"            password: password",
+					"        })",
+					"    } ",
+					"  });",
+					"  ",
+					"  pm.sendRequest(tokenRequest, function (err, response) {",
+					"      if (err) {",
+					"          throw err;",
+					"      }",
+					"      ",
+					"      if (response.code !== 200) {",
+					"          throw new Error('Could not log in.');",
+					"      }",
+					"      ",
+					"      pm.globals.set(\"jwttoken\", response.json());",
+					"      console.log(`New token has been set: ${response.json()}`);",
+					"  });",
+					"}"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
