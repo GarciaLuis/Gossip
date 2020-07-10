@@ -26,7 +26,7 @@ jobs:
       # Bring up container from dockerfile:
       - run: docker -v
       - run: docker build --tag gossip:0.0.1 .
-      - run: docker run -e "API_SECRET=$API_SECRET" -e "DB_HOST=$DB_HOST" -e "DB_POSTGRES_DRIVER=$DB_POSTGRES_DRIVER" -e "DB_USER=$DB_USER" -e "DB_PASSWORD=$DB_PASSWORD" -e "DB_NAME=$DB_NAME" -e "DB_PORT=$DB_PORT" --publish 8080:8080 --name gossip001 gossip:0.0.1
+      - run: docker run -d -e "API_SECRET=$API_SECRET" -e "DB_HOST=$DB_HOST" -e "DB_POSTGRES_DRIVER=$DB_POSTGRES_DRIVER" -e "DB_USER=$DB_USER" -e "DB_PASSWORD=$DB_PASSWORD" -e "DB_NAME=$DB_NAME" -e "DB_PORT=$DB_PORT" --publish 8080:8080 --name gossip001 gossip:0.0.1
 
       # Check that endpoint is up:
       - run: curl --location --request GET 'http://localhost:8080/'
