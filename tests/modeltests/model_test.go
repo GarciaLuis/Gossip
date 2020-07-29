@@ -17,7 +17,7 @@ var userInstance = models.User{}
 var postInstance = models.Post{}
 
 func TestMain(m *testing.M) {
-	// var err error
+
 	Database()
 	StartServer()
 
@@ -27,7 +27,6 @@ func TestMain(m *testing.M) {
 func Database() {
 	var err error
 
-	// TestDbDriver := os.Getenv("TestDbDriver")
 	TestDbDriver := os.Getenv("DB_POSTGRES_DRIVER")
 
 	if TestDbDriver == "postgres" {
