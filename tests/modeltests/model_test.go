@@ -8,6 +8,7 @@ import (
 
 	"github.com/garcialuis/Gossip/api/controllers"
 	"github.com/garcialuis/Gossip/api/models"
+	"github.com/gorilla/mux"
 	"github.com/jinzhu/gorm"
 )
 
@@ -16,8 +17,9 @@ var userInstance = models.User{}
 var postInstance = models.Post{}
 
 func TestMain(m *testing.M) {
-	// var err error
+
 	Database()
+	StartServer()
 
 	os.Exit(m.Run())
 }
@@ -25,7 +27,6 @@ func TestMain(m *testing.M) {
 func Database() {
 	var err error
 
-	// TestDbDriver := os.Getenv("TestDbDriver")
 	TestDbDriver := os.Getenv("DB_POSTGRES_DRIVER")
 
 	if TestDbDriver == "postgres" {
@@ -39,6 +40,12 @@ func Database() {
 			fmt.Printf("We are connected to the %s database\n", TestDbDriver)
 		}
 	}
+}
+
+func StartServer() {
+
+	server.Router = mux.NewRouter()
+	server.InitializeRoutes()
 }
 
 func refreshUserTable() error {

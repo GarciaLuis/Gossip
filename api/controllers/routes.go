@@ -2,7 +2,7 @@ package controllers
 
 import "github.com/garcialuis/Gossip/api/middlewares"
 
-func (s *Server) initializeRoutes() {
+func (s *Server) InitializeRoutes() {
 
 	// Home:
 	s.Router.HandleFunc("/", middlewares.SetMiddlewareJSON(s.Home)).Methods("GET")

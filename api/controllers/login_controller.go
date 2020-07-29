@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"net/http"
 
@@ -42,9 +41,7 @@ func (server *Server) Login(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	fmt.Println("Logged in, returning token: ", token)
-
-	responses.JSON(w, http.StatusOK, token)
+	responses.JSON(w, http.StatusOK, models.Token{Token: token})
 }
 
 func (server *Server) SignIn(email, password string) (string, error) {
