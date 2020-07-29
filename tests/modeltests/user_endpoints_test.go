@@ -144,7 +144,7 @@ func TestGetUser(t *testing.T) {
 // GetValidToken : Used by tests making requests to authenticated endpoints.
 // 	It checks to see if the current jwtToken is valid, if it's not it will login the user
 //	to create and returns the new valid token.
-func GetValidToken() string {
+func GetValidToken(userEmail, userPassword string) string {
 
 	url := fmt.Sprint("/private/users/", createdUserID)
 	authToken := "Bearer " + jwtToken.Token
@@ -157,18 +157,18 @@ func GetValidToken() string {
 
 	if response.Code == 401 {
 		fmt.Print("GOT A 401 BACK SO WE WILL LOG BACK IN")
-		login()
+		login(userEmail, userPassword)
 	}
 
 	return jwtToken.Token
 }
 
 // login : function used to login user to generate a jwtToken
-func login() {
+func login(userEmail, userPassword string) {
 
 	loginBody := models.User{
-		Email:    "tommyt@email.com",
-		Password: "dummypassword",
+		Email:    userEmail,
+		Password: userPassword,
 	}
 
 	userBytes, _ := json.Marshal(loginBody)
