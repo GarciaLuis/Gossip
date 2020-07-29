@@ -2,6 +2,7 @@ package modeltests
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -10,6 +11,16 @@ import (
 )
 
 func TestGetPostsEndpoint(t *testing.T) {
+
+	err := refreshUserAndPostTable()
+	if err != nil {
+		log.Fatalf("Error refreshing user and posts tables %v\n", err)
+	}
+	_, _, err = seedUsersAndPosts()
+	if err != nil {
+		log.Fatalf("Error seeding users and posts into table: %v\n", err)
+	}
+
 	request, _ := http.NewRequest("GET", "/posts", nil)
 	response := httptest.NewRecorder()
 
