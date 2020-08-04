@@ -1,0 +1,36 @@
+definitions:
+  User:
+    properties:
+      created_at:
+        format: date-time
+        type: string
+        x-go-name: CreatedAt
+      email:
+        type: string
+        x-go-name: Email
+      id:
+        format: uint32
+        type: integer
+        x-go-name: ID
+      nickname:
+        type: string
+        x-go-name: Nickname
+      password:
+        type: string
+        x-go-name: Password
+      updated_at:
+        format: date-time
+        type: string
+        x-go-name: UpdatedAt
+    type: object
+    x-go-package: github.com/garcialuis/Gossip/api/models
+info: {}
+paths: {}
+responses:
+  usersResponse:
+    description: A list of users
+    schema:
+      items:
+        $ref: '#/definitions/User'
+      type: array
+swagger: "2.0"
