@@ -12,6 +12,13 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
+// Login Handler:
+// swagger:route POST /login users LoginUser
+// Logs in user given the login credentials
+//
+//	Responses:
+//		200: authToken
+//		422: description: Unprocessable Entity
 func (server *Server) Login(w http.ResponseWriter, r *http.Request) {
 
 	body, err := ioutil.ReadAll(r.Body)

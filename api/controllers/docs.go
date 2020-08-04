@@ -71,3 +71,11 @@ type postsResponseWrapper struct {
 	// in: body
 	Body []models.Post
 }
+
+// Authorization Token
+// swagger:response authToken
+type tokenResponseWrapper struct {
+	// Authorization token
+	// in: body
+	Body models.Token
+}

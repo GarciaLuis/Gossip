@@ -44,7 +44,7 @@ definitions:
     description: Token is the entity that holds the security token
     properties:
       token:
-        description: Token is a jwt token needed in authenticated requests
+        description: Token is a jwt token needed for authenticated requests
         type: string
         x-go-name: Token
     required:
@@ -94,6 +94,25 @@ definitions:
     x-go-package: github.com/garcialuis/Gossip/api/models
 info: {}
 paths:
+  /:
+    get:
+      operationId: Home
+      responses:
+        "200":
+          description: ' OK - Welcomes to Gossip API'
+      tags:
+      - home
+  /login:
+    post:
+      description: Logs in user given the login credentials
+      operationId: LoginUser
+      responses:
+        "200":
+          $ref: '#/responses/authToken'
+        "422":
+          description: ' Unprocessable Entity'
+      tags:
+      - users
   /post/{id}:
     get:
       operationId: GetPost
@@ -252,6 +271,10 @@ paths:
       tags:
       - users
 responses:
+  authToken:
+    description: Authorization Token
+    schema:
+      $ref: '#/definitions/Token'
   authenticatedUser:
     description: User record that may include sensitive information
     schema:
