@@ -42,7 +42,53 @@ definitions:
     x-go-package: github.com/garcialuis/Gossip/api/models
 info: {}
 paths:
+  /private/users/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Returns authenticated user's information with additional sensitive info
+      operationId: GetAuthUser
+      produces:
+      - application/json
+      responses:
+        "200":
+          $ref: '#/responses/authenticatedUser'
+        "400":
+          description: ' Bad Request'
+        "401":
+          description: ' Unauthorized'
+      security:
+      - api_key: []
+      tags:
+      - private_user
   /users:
+    delete:
+      operationId: DeleteUser
+      responses:
+        "204":
+          description: ' No Content'
+        "401":
+          description: ' Unauthorized'
+        "422":
+          description: ' Unprocessable Entity'
+      security:
+      - api_key: []
+      tags:
+      - users
+    get:
+      consumes:
+      - application/json
+      description: GetUsers returns a list of all users
+      operationId: getUsers
+      produces:
+      - application/json
+      responses:
+        "200":
+          $ref: '#/responses/usersResponse'
+        "500":
+          description: ' Internal Server Error'
+      tags:
+      - users
     post:
       consumes:
       - application/json
@@ -52,16 +98,46 @@ paths:
       - application/json
       responses:
         "201":
-          $ref: '#/responses/userCreated'
+          $ref: '#/responses/userResponse'
         "422":
           description: ' Unprocessable entity - unable to process input data'
         "500":
           description: ' Internal Server Error'
       tags:
       - users
+    put:
+      operationId: UpdateUser
+      responses:
+        "200":
+          description: ' userResponse'
+        "401":
+          description: ' Unauthorized'
+        "422":
+          description: ' Unprocessable Entity'
+        "500":
+          description: ' Internal Server Error'
+      security:
+      - api_key: []
+      tags:
+      - users
+  /users/{id}:
+    get:
+      description: GetUser returns a user record with the specified userID
+      operationId: getUser
+      responses:
+        "200":
+          $ref: '#/responses/userResponse'
+        "400":
+          description: ' Bad Request'
+      tags:
+      - users
 responses:
-  userCreated:
-    description: A single user created
+  authenticatedUser:
+    description: User record that may include sensitive information
+    schema:
+      $ref: '#/definitions/User'
+  userResponse:
+    description: User record
     schema:
       $ref: '#/definitions/User'
   usersResponse:
