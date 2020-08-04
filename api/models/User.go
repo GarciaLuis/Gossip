@@ -12,12 +12,33 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
+// User represents the user for this application
+//
+// A user can create, delete, and edit their own posts
+//
+// swagger:model
 type User struct {
-	ID        uint32    `json:"id" gorm:"primary_key;auto_increment"`
-	Nickname  string    `json:"nickname" gorm:"size:255;not null;unique"`
-	Email     string    `json:"email" gorm:"size:100;not null;unique"`
-	Password  string    `json:"password" gorm:"size:100;not null;"`
+	// the id for this user
+	//
+	// required: true
+	// min: 1
+	ID uint32 `json:"id" gorm:"primary_key;auto_increment"`
+	// the nickname/username for the user
+	// required: true
+	Nickname string `json:"nickname" gorm:"size:255;not null;unique"`
+	// the email address for the user
+	//
+	// required: true
+	// example: user@email.com
+	Email string `json:"email" gorm:"size:100;not null;unique"`
+	// the user's login password
+	// required: true
+	Password string `json:"password" gorm:"size:100;not null;"`
+	// The time that the user record was created in db
+	// read only: true
 	CreatedAt time.Time `json:"created_at" gorm:"default:CURRENT_TIMESTAMP"`
+	// The time the user record is updated in the db
+	// read only: true
 	UpdatedAt time.Time `json:"updated_at" gorm:"default:CURRENT_TIMESTAMP"`
 }
 

@@ -15,6 +15,23 @@ import (
 	"github.com/gorilla/mux"
 )
 
+// swagger:route POST /users users createUser
+//
+// Creates a user record
+//
+//	Consumes:
+//	- application/json
+//
+//	Produces:
+//	- application/json
+//
+//	Responses:
+//		default: genericError
+//		201: userCreated
+//		422: validationError
+//		500: internalServerError
+
+// CreateUser creates user records
 func (server *Server) CreateUser(w http.ResponseWriter, r *http.Request) {
 
 	body, err := ioutil.ReadAll(r.Body)
