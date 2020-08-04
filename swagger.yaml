@@ -1,4 +1,56 @@
 definitions:
+  Post:
+    description: A Post can be created, edited or deleted by its author.
+    properties:
+      author_id:
+        description: ID of the author user
+        format: uint32
+        type: integer
+        x-go-name: AuthorID
+      content:
+        description: Content holds the main information that the use wants to share
+        type: string
+        x-go-name: Content
+      created_at:
+        description: createdAt is the time that the post was created in the db
+        format: date-time
+        type: string
+        x-go-name: CreatedAt
+      id:
+        description: ID that belongs to the post, assigned by the db
+        format: uint64
+        minimum: 1
+        type: integer
+        x-go-name: ID
+      title:
+        description: The post's title
+        type: string
+        x-go-name: Title
+      updated_at:
+        description: updatedAt is the time that the post is updated
+        format: date-time
+        type: string
+        x-go-name: UpdatedAt
+      user:
+        $ref: '#/definitions/User'
+    required:
+    - title
+    - content
+    - author_id
+    title: Post represents a contribution that a user has made to the blog.
+    type: object
+    x-go-package: github.com/garcialuis/Gossip/api/models
+  Token:
+    description: Token is the entity that holds the security token
+    properties:
+      token:
+        description: Token is a jwt token needed in authenticated requests
+        type: string
+        x-go-name: Token
+    required:
+    - token
+    type: object
+    x-go-package: github.com/garcialuis/Gossip/api/models
   User:
     description: A user can create, delete, and edit their own posts
     properties:
@@ -42,6 +94,74 @@ definitions:
     x-go-package: github.com/garcialuis/Gossip/api/models
 info: {}
 paths:
+  /post/{id}:
+    get:
+      operationId: GetPost
+      responses:
+        "200":
+          $ref: '#/responses/postResponse'
+        "400":
+          description: ' Bad Request'
+        "500":
+          description: ' Internal Server Error'
+      tags:
+      - posts
+    put:
+      operationId: UpdatePost
+      responses:
+        "200":
+          $ref: '#/responses/postResponse'
+        "400":
+          description: ' Bad Request'
+        "401":
+          description: ' Unauthorized'
+        "404":
+          description: ' Post Not Found'
+        "422":
+          description: ' Unprocessable Entity'
+      security:
+      - api_key: []
+      tags:
+      - posts
+  /posts:
+    get:
+      operationId: GetPosts
+      responses:
+        "200":
+          $ref: '#/responses/postsResponse'
+        "500":
+          description: ' Internal Server Error'
+      tags:
+      - posts
+    post:
+      operationId: CreatePost
+      responses:
+        "201":
+          $ref: '#/responses/postResponse'
+        "401":
+          description: ' Unauthorized'
+        "422":
+          description: ' Unprocessable Entity'
+        "500":
+          description: ' Internal Server Error'
+      tags:
+      - posts
+  /posts/{id}:
+    delete:
+      operationId: DeletePost
+      responses:
+        "204":
+          description: ' No Content'
+        "400":
+          description: ' Bad Request'
+        "401":
+          description: ' Unauthorized'
+        "404":
+          description: ' Post Not Found'
+      security:
+      - api_key: []
+      tags:
+      - posts
   /private/users/{id}:
     get:
       consumes:
@@ -136,6 +256,16 @@ responses:
     description: User record that may include sensitive information
     schema:
       $ref: '#/definitions/User'
+  postResponse:
+    description: Post model
+    schema:
+      $ref: '#/definitions/Post'
+  postsResponse:
+    description: List of Posts
+    schema:
+      items:
+        $ref: '#/definitions/Post'
+      type: array
   userResponse:
     description: User record
     schema:
