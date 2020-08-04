@@ -26,7 +26,7 @@ import (
 //	- application/json
 //
 //	Responses:
-//		201: userCreated
+//		201: userResponse
 //		422: description: Unprocessable entity - unable to process input data
 //		500: description: Internal Server Error
 func (server *Server) CreateUser(w http.ResponseWriter, r *http.Request) {
@@ -61,6 +61,19 @@ func (server *Server) CreateUser(w http.ResponseWriter, r *http.Request) {
 
 }
 
+// GetUsers handler:
+// swagger:route GET /users users getUsers
+// GetUsers returns a list of all users
+//
+//	Consumes:
+//	- application/json
+//
+//	Produces:
+//	- application/json
+//
+//	Responses:
+//		200: usersResponse
+//		500: description: Internal Server Error
 func (server *Server) GetUsers(w http.ResponseWriter, r *http.Request) {
 
 	user := models.User{}
@@ -75,6 +88,13 @@ func (server *Server) GetUsers(w http.ResponseWriter, r *http.Request) {
 	responses.JSON(w, http.StatusOK, users)
 }
 
+// GetUser Handler:
+// swagger:route GET /users/{id} users getUser
+// GetUser returns a user record with the specified userID
+//
+//	Responses:
+//		400: description: Bad Request
+//		200: userResponse
 func (server *Server) GetUser(w http.ResponseWriter, r *http.Request) {
 
 	vars := mux.Vars(r)
@@ -96,6 +116,22 @@ func (server *Server) GetUser(w http.ResponseWriter, r *http.Request) {
 
 // AuthenticatedGetUser is an Authenticated version of GetUser,
 // this endpoint may return confidential data that GetUser will not
+// swagger:route GET /private/users/{id} private_user GetAuthUser
+// Returns authenticated user's information with additional sensitive info
+//
+//	Consumes:
+//	- application/json
+//
+//	Produces:
+//	- application/json
+//
+//	Security:
+//	- api_key:
+//
+//	Responses:
+//		401: description: Unauthorized
+//		400: description: Bad Request
+//		200: authenticatedUser
 func (server *Server) AuthenticatedGetUser(w http.ResponseWriter, r *http.Request) {
 
 	vars := mux.Vars(r)
@@ -127,6 +163,16 @@ func (server *Server) AuthenticatedGetUser(w http.ResponseWriter, r *http.Reques
 	responses.JSON(w, http.StatusOK, userGotten)
 }
 
+// UpdateUser Handler:
+// swagger:route PUT /users users UpdateUser
+//	Security:
+//	- api_key:
+//
+//	Responses:
+//		422: description: Unprocessable Entity
+//		401: description: Unauthorized
+//		500: description: Internal Server Error
+//		200: description: userResponse
 func (server *Server) UpdateUser(w http.ResponseWriter, r *http.Request) {
 
 	vars := mux.Vars(r)
@@ -177,6 +223,15 @@ func (server *Server) UpdateUser(w http.ResponseWriter, r *http.Request) {
 
 }
 
+// DeleteUser Handler:
+// swagger:route DELETE /users users DeleteUser
+//	Security:
+//	- api_key:
+//
+//	Responses:
+//		204: description: No Content
+//		422: description: Unprocessable Entity
+//		401: description: Unauthorized
 func (server *Server) DeleteUser(w http.ResponseWriter, r *http.Request) {
 
 	vars := mux.Vars(r)
