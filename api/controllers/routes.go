@@ -1,6 +1,11 @@
 package controllers
 
-import "github.com/garcialuis/Gossip/api/middlewares"
+import (
+	"net/http"
+
+	"github.com/garcialuis/Gossip/api/middlewares"
+	"github.com/go-openapi/runtime/middleware"
+)
 
 func (s *Server) InitializeRoutes() {
 
@@ -26,4 +31,11 @@ func (s *Server) InitializeRoutes() {
 
 	s.Router.HandleFunc("/private/users", middlewares.SetMiddlewareJSON(middlewares.SetMiddlewareAuthentication(s.GetUsers))).Methods("GET")
 	s.Router.HandleFunc("/private/users/{id}", middlewares.SetMiddlewareJSON(middlewares.SetMiddlewareAuthentication(s.AuthenticatedGetUser))).Methods("GET")
+
+	// Swagger Docs:
+	opts := middleware.RedocOpts{SpecURL: "../../swagger.yaml"}
+	sh := middleware.Redoc(opts, nil)
+
+	s.Router.Handle("/docs", sh)
+	s.Router.Handle("/swagger.yaml", http.FileServer(http.Dir("./")))
 }

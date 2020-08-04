@@ -15,19 +15,16 @@ import (
 // User represents the user for this application
 //
 // A user can create, delete, and edit their own posts
-//
 // swagger:model
 type User struct {
-	// the id for this user
-	//
-	// required: true
+	// the id for this user, created by the database
+	// required: false
 	// min: 1
 	ID uint32 `json:"id" gorm:"primary_key;auto_increment"`
 	// the nickname/username for the user
 	// required: true
 	Nickname string `json:"nickname" gorm:"size:255;not null;unique"`
 	// the email address for the user
-	//
 	// required: true
 	// example: user@email.com
 	Email string `json:"email" gorm:"size:100;not null;unique"`
