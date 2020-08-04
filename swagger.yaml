@@ -1,32 +1,69 @@
 definitions:
   User:
+    description: A user can create, delete, and edit their own posts
     properties:
       created_at:
+        description: The time that the user record was created in db
         format: date-time
+        readOnly: true
         type: string
         x-go-name: CreatedAt
       email:
+        description: the email address for the user
+        example: user@email.com
         type: string
         x-go-name: Email
       id:
+        description: the id for this user, created by the database
         format: uint32
+        minimum: 1
         type: integer
         x-go-name: ID
       nickname:
+        description: the nickname/username for the user
         type: string
         x-go-name: Nickname
       password:
+        description: the user's login password
         type: string
         x-go-name: Password
       updated_at:
+        description: The time the user record is updated in the db
         format: date-time
+        readOnly: true
         type: string
         x-go-name: UpdatedAt
+    required:
+    - nickname
+    - email
+    - password
+    title: User represents the user for this application
     type: object
     x-go-package: github.com/garcialuis/Gossip/api/models
 info: {}
-paths: {}
+paths:
+  /users:
+    post:
+      consumes:
+      - application/json
+      description: Creates a new user record
+      operationId: createUser
+      produces:
+      - application/json
+      responses:
+        "201":
+          $ref: '#/responses/userCreated'
+        "422":
+          description: ' Unprocessable entity - unable to process input data'
+        "500":
+          description: ' Internal Server Error'
+      tags:
+      - users
 responses:
+  userCreated:
+    description: A single user created
+    schema:
+      $ref: '#/definitions/User'
   usersResponse:
     description: A list of users
     schema:

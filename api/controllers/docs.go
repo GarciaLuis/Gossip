@@ -25,3 +25,11 @@ type usersResponseWrapper struct {
 	// in: body
 	Body []models.User
 }
+
+// A single user created
+// swagger:response userCreated
+type userCreatedResponseWrapper struct {
+	// Newly created user
+	// in: body
+	Body models.User
+}

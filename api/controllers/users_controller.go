@@ -15,6 +15,20 @@ import (
 	"github.com/gorilla/mux"
 )
 
+// CreateUser handler:
+// swagger:route POST /users users createUser
+// Creates a new user record
+//
+//	Consumes:
+//	- application/json
+//
+//	Produces:
+//	- application/json
+//
+//	Responses:
+//		201: userCreated
+//		422: description: Unprocessable entity - unable to process input data
+//		500: description: Internal Server Error
 func (server *Server) CreateUser(w http.ResponseWriter, r *http.Request) {
 
 	body, err := ioutil.ReadAll(r.Body)
