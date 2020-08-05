@@ -1,10 +1,11 @@
-// Package classification of Gossip API
+// Package classification Gossip API
 //
 // Documentation for Gossip API
 //
 //		Schemes: http
 //		BasePath: /
-//		Version: 1.0.0
+//		title: Gossip API
+//		version: 1.0.0
 //
 //		Consumes:
 //		- application/json
@@ -78,4 +79,13 @@ type tokenResponseWrapper struct {
 	// Authorization token
 	// in: body
 	Body models.Token
+}
+
+// ID used for users/posts
+// swagger:parameters getUser GetAuthUser GetPost UpdatePost DeletePost
+type identifierParamWrapper struct {
+	// The identification key
+	// in: path
+	// required: true
+	ID int `json:"id"`
 }
