@@ -6,6 +6,7 @@ import (
 	"net/http"
 
 	"github.com/garcialuis/Gossip/api/models"
+	"github.com/garcialuis/Nutriport/sdk/client/bmi"
 	"github.com/gorilla/mux"
 	"github.com/jinzhu/gorm"
 
@@ -13,8 +14,9 @@ import (
 )
 
 type Server struct {
-	DB     *gorm.DB
-	Router *mux.Router
+	DB        *gorm.DB
+	Router    *mux.Router
+	BMIClient *bmi.BMIClientService
 }
 
 func (server *Server) Initialize(Dbdriver, DbUser, DbPassword, DbPort, DbHost, DbName string) {
@@ -36,6 +38,8 @@ func (server *Server) Initialize(Dbdriver, DbUser, DbPassword, DbPort, DbHost, D
 	server.DB.Debug().AutoMigrate(&models.User{}, &models.Post{})
 
 	server.Router = mux.NewRouter()
+
+	server.BMIClient = bmi.NewBMIService()
 
 	server.InitializeRoutes()
 

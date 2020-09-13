@@ -263,3 +263,17 @@ func (server *Server) DeleteUser(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Entity", fmt.Sprintf("%d", uid))
 	responses.JSON(w, http.StatusNoContent, "")
 }
+
+func (server *Server) GetUserBMI(w http.ResponseWriter, r *http.Request) {
+
+	weight := 160.0
+	height := 67.0
+
+	personInfo := server.BMIClient.CalculateImperialBMI(weight, height)
+	fmt.Println("BMI: ", personInfo.BMI, personInfo.BMIDescription)
+
+	fmt.Println(personInfo)
+
+	responses.JSON(w, http.StatusOK, personInfo)
+
+}

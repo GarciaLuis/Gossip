@@ -5,6 +5,7 @@ go 1.14
 require (
 	github.com/badoux/checkmail v1.2.0
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
+	github.com/garcialuis/Nutriport v0.0.0-20200913062404-32622e33907c
 	github.com/go-openapi/errors v0.19.6
 	github.com/go-openapi/runtime v0.19.20
 	github.com/go-openapi/spec v0.19.9 // indirect
@@ -12,7 +13,7 @@ require (
 	github.com/go-openapi/swag v0.19.9
 	github.com/go-openapi/validate v0.19.10
 	github.com/gorilla/mux v1.7.4
-	github.com/jinzhu/gorm v1.9.15
+	github.com/jinzhu/gorm v1.9.16
 	github.com/joho/godotenv v1.3.0
 	github.com/lib/pq v1.8.0 // indirect
 	github.com/mailru/easyjson v0.7.2 // indirect
