@@ -24,7 +24,6 @@
 //			in: header
 //
 // swagger:meta
-
 package controllers
 
 import "github.com/garcialuis/Gossip/api/models"
