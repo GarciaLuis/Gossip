@@ -29,6 +29,10 @@ func (s *Server) InitializeRoutes() {
 	s.Router.HandleFunc("/users/{id}", middlewares.SetMiddlewareJSON(middlewares.SetMiddlewareAuthentication(s.UpdateUser))).Methods("PUT")
 	s.Router.HandleFunc("/users/{id}", middlewares.SetMiddlewareAuthentication(s.DeleteUser)).Methods("DELETE")
 
+	// User - BMI:
+	// TODO: Authenticate and Modify to be: /user/bmi/{id} to get the user's bmi with their personalized information (weight, heigth)
+	s.Router.HandleFunc("/user/bmi", middlewares.SetMiddlewareJSON(s.GetUserBMI)).Methods("GET")
+
 	s.Router.HandleFunc("/private/users", middlewares.SetMiddlewareJSON(middlewares.SetMiddlewareAuthentication(s.GetUsers))).Methods("GET")
 	s.Router.HandleFunc("/private/users/{id}", middlewares.SetMiddlewareJSON(middlewares.SetMiddlewareAuthentication(s.AuthenticatedGetUser))).Methods("GET")
 

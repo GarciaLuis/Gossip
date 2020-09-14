@@ -3,12 +3,25 @@ module github.com/garcialuis/Gossip
 go 1.14
 
 require (
-	github.com/badoux/checkmail v0.0.0-20181210160741-9661bd69e9ad
+	github.com/badoux/checkmail v1.2.0
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
+	github.com/garcialuis/Nutriport v0.0.0-20200913062404-32622e33907c
+	github.com/go-openapi/errors v0.19.6
 	github.com/go-openapi/runtime v0.19.20
+	github.com/go-openapi/spec v0.19.9 // indirect
+	github.com/go-openapi/strfmt v0.19.5
+	github.com/go-openapi/swag v0.19.9
+	github.com/go-openapi/validate v0.19.10
 	github.com/gorilla/mux v1.7.4
-	github.com/jinzhu/gorm v1.9.12
+	github.com/jinzhu/gorm v1.9.16
 	github.com/joho/godotenv v1.3.0
-	golang.org/x/crypto v0.0.0-20200604202706-70a84ac30bf9
+	github.com/lib/pq v1.8.0 // indirect
+	github.com/mailru/easyjson v0.7.2 // indirect
+	github.com/mattn/go-sqlite3 v2.0.1+incompatible // indirect
+	github.com/mitchellh/mapstructure v1.3.3 // indirect
+	go.mongodb.org/mongo-driver v1.4.0 // indirect
+	golang.org/x/crypto v0.0.0-20200728195943-123391ffb6de
+	golang.org/x/net v0.0.0-20200707034311-ab3426394381 // indirect
+	google.golang.org/appengine v1.4.0 // indirect
 	gopkg.in/go-playground/assert.v1 v1.2.1
 )
