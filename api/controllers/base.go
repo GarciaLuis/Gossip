@@ -19,6 +19,11 @@ type Server struct {
 	BMIClient *bmi.BMIClientService
 }
 
+type BMIClientService interface {
+	// TODO: Interface should require BMI Client functions:
+	//CalculateImperialBMI(weight, height float64) models.Person
+}
+
 func (server *Server) Initialize(Dbdriver, DbUser, DbPassword, DbPort, DbHost, DbName string) {
 
 	var err error
