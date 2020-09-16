@@ -7,6 +7,7 @@ import (
 
 	"github.com/garcialuis/Gossip/api/models"
 	"github.com/garcialuis/Nutriport/sdk/client/bmi"
+	bmi_models "github.com/garcialuis/Nutriport/sdk/models"
 	"github.com/gorilla/mux"
 	"github.com/jinzhu/gorm"
 
@@ -14,14 +15,15 @@ import (
 )
 
 type Server struct {
-	DB        *gorm.DB
-	Router    *mux.Router
-	BMIClient *bmi.BMIClientService
+	DB     *gorm.DB
+	Router *mux.Router
+	// BMIClient *bmi.BMIClientService
+	BMIClient BMIClientService
 }
 
 type BMIClientService interface {
 	// TODO: Interface should require BMI Client functions:
-	//CalculateImperialBMI(weight, height float64) models.Person
+	CalculateImperialBMI(weight, height float64) bmi_models.Person //models.Person
 }
 
 func (server *Server) Initialize(Dbdriver, DbUser, DbPassword, DbPort, DbHost, DbName string) {
