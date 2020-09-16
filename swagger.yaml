@@ -1,3 +1,6 @@
+basePath: /
+consumes:
+- application/json
 definitions:
   Post:
     description: A Post can be created, edited or deleted by its author.
@@ -92,7 +95,8 @@ definitions:
     title: User represents the user for this application
     type: object
     x-go-package: github.com/garcialuis/Gossip/api/models
-info: 
+info:
+  description: Documentation for Gossip API
   title: Gossip API
   version: 1.0.0
 paths:
@@ -312,6 +316,8 @@ paths:
           description: ' Bad Request'
       tags:
       - users
+produces:
+- application/json
 responses:
   authToken:
     description: Authorization Token
@@ -341,4 +347,8 @@ responses:
       items:
         $ref: '#/definitions/User'
       type: array
+schemes:
+- http
+security:
+- api_key: []
 swagger: "2.0"
