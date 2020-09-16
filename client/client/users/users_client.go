@@ -29,15 +29,15 @@ type Client struct {
 type ClientService interface {
 	DeleteUser(params *DeleteUserParams, authInfo runtime.ClientAuthInfoWriter) (*DeleteUserNoContent, error)
 
-	LoginUser(params *LoginUserParams) (*LoginUserOK, error)
+	LoginUser(params *LoginUserParams, authInfo runtime.ClientAuthInfoWriter) (*LoginUserOK, error)
 
 	UpdateUser(params *UpdateUserParams, authInfo runtime.ClientAuthInfoWriter) (*UpdateUserOK, error)
 
-	CreateUser(params *CreateUserParams) (*CreateUserCreated, error)
+	CreateUser(params *CreateUserParams, authInfo runtime.ClientAuthInfoWriter) (*CreateUserCreated, error)
 
-	GetUser(params *GetUserParams) (*GetUserOK, error)
+	GetUser(params *GetUserParams, authInfo runtime.ClientAuthInfoWriter) (*GetUserOK, error)
 
-	GetUsers(params *GetUsersParams) (*GetUsersOK, error)
+	GetUsers(params *GetUsersParams, authInfo runtime.ClientAuthInfoWriter) (*GetUsersOK, error)
 
 	SetTransport(transport runtime.ClientTransport)
 }
@@ -80,7 +80,7 @@ func (a *Client) DeleteUser(params *DeleteUserParams, authInfo runtime.ClientAut
 /*
   LoginUser Logs in user given the login credentials
 */
-func (a *Client) LoginUser(params *LoginUserParams) (*LoginUserOK, error) {
+func (a *Client) LoginUser(params *LoginUserParams, authInfo runtime.ClientAuthInfoWriter) (*LoginUserOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewLoginUserParams()
@@ -95,6 +95,7 @@ func (a *Client) LoginUser(params *LoginUserParams) (*LoginUserOK, error) {
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &LoginUserReader{formats: a.formats},
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
 	})
@@ -149,7 +150,7 @@ func (a *Client) UpdateUser(params *UpdateUserParams, authInfo runtime.ClientAut
 /*
   CreateUser Creates a new user record
 */
-func (a *Client) CreateUser(params *CreateUserParams) (*CreateUserCreated, error) {
+func (a *Client) CreateUser(params *CreateUserParams, authInfo runtime.ClientAuthInfoWriter) (*CreateUserCreated, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewCreateUserParams()
@@ -164,6 +165,7 @@ func (a *Client) CreateUser(params *CreateUserParams) (*CreateUserCreated, error
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &CreateUserReader{formats: a.formats},
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
 	})
@@ -183,7 +185,7 @@ func (a *Client) CreateUser(params *CreateUserParams) (*CreateUserCreated, error
 /*
   GetUser GetUser returns a user record with the specified userID
 */
-func (a *Client) GetUser(params *GetUserParams) (*GetUserOK, error) {
+func (a *Client) GetUser(params *GetUserParams, authInfo runtime.ClientAuthInfoWriter) (*GetUserOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewGetUserParams()
@@ -198,6 +200,7 @@ func (a *Client) GetUser(params *GetUserParams) (*GetUserOK, error) {
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetUserReader{formats: a.formats},
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
 	})
@@ -217,7 +220,7 @@ func (a *Client) GetUser(params *GetUserParams) (*GetUserOK, error) {
 /*
   GetUsers GetUsers returns a list of all users
 */
-func (a *Client) GetUsers(params *GetUsersParams) (*GetUsersOK, error) {
+func (a *Client) GetUsers(params *GetUsersParams, authInfo runtime.ClientAuthInfoWriter) (*GetUsersOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewGetUsersParams()
@@ -232,6 +235,7 @@ func (a *Client) GetUsers(params *GetUsersParams) (*GetUsersOK, error) {
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetUsersReader{formats: a.formats},
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
 	})

@@ -27,7 +27,7 @@ type Client struct {
 
 // ClientService is the interface for Client methods
 type ClientService interface {
-	Home(params *HomeParams) (*HomeOK, error)
+	Home(params *HomeParams, authInfo runtime.ClientAuthInfoWriter) (*HomeOK, error)
 
 	SetTransport(transport runtime.ClientTransport)
 }
@@ -35,7 +35,7 @@ type ClientService interface {
 /*
   Home home API
 */
-func (a *Client) Home(params *HomeParams) (*HomeOK, error) {
+func (a *Client) Home(params *HomeParams, authInfo runtime.ClientAuthInfoWriter) (*HomeOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewHomeParams()
@@ -50,6 +50,7 @@ func (a *Client) Home(params *HomeParams) (*HomeOK, error) {
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &HomeReader{formats: a.formats},
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
 	})
