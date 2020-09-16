@@ -17,11 +17,6 @@
 //		Security:
 //		- api_key:
 //
-//		SecurityDefinitions:
-//		api_key:
-//			type: apiKey
-//			name: KEY
-//			in: header
 //
 // swagger:meta
 package controllers

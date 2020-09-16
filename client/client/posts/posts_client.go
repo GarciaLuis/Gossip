@@ -27,13 +27,13 @@ type Client struct {
 
 // ClientService is the interface for Client methods
 type ClientService interface {
-	CreatePost(params *CreatePostParams) (*CreatePostCreated, error)
+	CreatePost(params *CreatePostParams, authInfo runtime.ClientAuthInfoWriter) (*CreatePostCreated, error)
 
 	DeletePost(params *DeletePostParams, authInfo runtime.ClientAuthInfoWriter) (*DeletePostNoContent, error)
 
-	GetPost(params *GetPostParams) (*GetPostOK, error)
+	GetPost(params *GetPostParams, authInfo runtime.ClientAuthInfoWriter) (*GetPostOK, error)
 
-	GetPosts(params *GetPostsParams) (*GetPostsOK, error)
+	GetPosts(params *GetPostsParams, authInfo runtime.ClientAuthInfoWriter) (*GetPostsOK, error)
 
 	UpdatePost(params *UpdatePostParams, authInfo runtime.ClientAuthInfoWriter) (*UpdatePostOK, error)
 
@@ -43,7 +43,7 @@ type ClientService interface {
 /*
   CreatePost create post API
 */
-func (a *Client) CreatePost(params *CreatePostParams) (*CreatePostCreated, error) {
+func (a *Client) CreatePost(params *CreatePostParams, authInfo runtime.ClientAuthInfoWriter) (*CreatePostCreated, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewCreatePostParams()
@@ -58,6 +58,7 @@ func (a *Client) CreatePost(params *CreatePostParams) (*CreatePostCreated, error
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &CreatePostReader{formats: a.formats},
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
 	})
@@ -112,7 +113,7 @@ func (a *Client) DeletePost(params *DeletePostParams, authInfo runtime.ClientAut
 /*
   GetPost get post API
 */
-func (a *Client) GetPost(params *GetPostParams) (*GetPostOK, error) {
+func (a *Client) GetPost(params *GetPostParams, authInfo runtime.ClientAuthInfoWriter) (*GetPostOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewGetPostParams()
@@ -127,6 +128,7 @@ func (a *Client) GetPost(params *GetPostParams) (*GetPostOK, error) {
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetPostReader{formats: a.formats},
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
 	})
@@ -146,7 +148,7 @@ func (a *Client) GetPost(params *GetPostParams) (*GetPostOK, error) {
 /*
   GetPosts get posts API
 */
-func (a *Client) GetPosts(params *GetPostsParams) (*GetPostsOK, error) {
+func (a *Client) GetPosts(params *GetPostsParams, authInfo runtime.ClientAuthInfoWriter) (*GetPostsOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewGetPostsParams()
@@ -161,6 +163,7 @@ func (a *Client) GetPosts(params *GetPostsParams) (*GetPostsOK, error) {
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetPostsReader{formats: a.formats},
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
 	})
