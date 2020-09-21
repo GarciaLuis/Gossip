@@ -32,6 +32,10 @@ github.com/docker/go-units v0.4.0/go.mod h1:fgPhTUdO+D/Jk86RDLlptpiXQzgHJF7gydDD
 github.com/erikstmartin/go-testdb v0.0.0-20160219214506-8d10e4a1bae5/go.mod h1:a2zkGnVExMxdzMo3M0Hi/3sEU+cWnZpSni0O6/Yb/P0=
 github.com/garcialuis/Nutriport v0.0.0-20200913062404-32622e33907c h1:Z2qJyAcku4RDf+Tp0NaK2NnxsDoBTG3q+jiIz6ChrC0=
 github.com/garcialuis/Nutriport v0.0.0-20200913062404-32622e33907c/go.mod h1:yo7uWSYhVRivLsQjUS319FddMh95HYawngwdgo37ngM=
+github.com/garcialuis/Nutriport v0.0.0-20200918011743-69a363737215 h1:yZqDhU2ifJ0xPFtov5TenkndBiHOAIvxxXTiYoU2jAo=
+github.com/garcialuis/Nutriport v0.0.0-20200918011743-69a363737215/go.mod h1:yo7uWSYhVRivLsQjUS319FddMh95HYawngwdgo37ngM=
+github.com/garcialuis/Nutriport v0.0.0-20200918042346-27eaaf89e9f0 h1:Dv2v8OALb1uuFbvz942TW9lSeguoiaivGfGNH+PDa6c=
+github.com/garcialuis/Nutriport v0.0.0-20200918042346-27eaaf89e9f0/go.mod h1:yo7uWSYhVRivLsQjUS319FddMh95HYawngwdgo37ngM=
 github.com/globalsign/mgo v0.0.0-20180905125535-1ca0a4f7cbcb/go.mod h1:xkRDCp4j0OGD1HRkm4kmhM+pmpv3AKq5SU7GMg4oO/Q=
 github.com/globalsign/mgo v0.0.0-20181015135952-eeefdecb41b8/go.mod h1:xkRDCp4j0OGD1HRkm4kmhM+pmpv3AKq5SU7GMg4oO/Q=
 github.com/go-openapi/analysis v0.0.0-20180825180245-b006789cd277/go.mod h1:k70tL6pCuVxPJOHXQ+wIac1FUrvNkHolPie/cLEU6hI=

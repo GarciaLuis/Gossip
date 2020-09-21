@@ -6,8 +6,9 @@ import (
 	"net/http"
 
 	"github.com/garcialuis/Gossip/api/models"
-	"github.com/garcialuis/Nutriport/sdk/client/bmi"
-	bmi_models "github.com/garcialuis/Nutriport/sdk/models"
+
+	nutriportclient "github.com/garcialuis/Nutriport/sdk/client"
+	nutriportclient_models "github.com/garcialuis/Nutriport/sdk/models"
 	"github.com/gorilla/mux"
 	"github.com/jinzhu/gorm"
 
@@ -15,15 +16,30 @@ import (
 )
 
 type Server struct {
-	DB     *gorm.DB
-	Router *mux.Router
-	// BMIClient *bmi.BMIClientService
-	BMIClient BMIClientService
+	DB              *gorm.DB
+	Router          *mux.Router
+	NutriportClient NutriportClientService
 }
 
-type BMIClientService interface {
-	// TODO: Interface should require BMI Client functions:
-	CalculateImperialBMI(weight, height float64) bmi_models.Person //models.Person
+type NutriportClientService interface {
+	BMIClient
+	TEEClient
+	FoodClient
+}
+
+type BMIClient interface {
+	CalculateImperialBMI(weight, height float64) nutriportclient_models.Person
+}
+
+type TEEClient interface {
+	CalculateTotalEnergyExpenditure(age int, gender int, weight float64, activityLevel string) nutriportclient_models.Person
+}
+
+type FoodClient interface {
+	CreateFoodItem(foodItem nutriportclient_models.FoodItem) nutriportclient_models.FoodItem
+	GetAllFoodItems() []nutriportclient_models.FoodItem
+	DeleteFoodItem(foodItemName string) int
+	GetFoodItemByName(foodItemName string) nutriportclient_models.FoodItem
 }
 
 func (server *Server) Initialize(Dbdriver, DbUser, DbPassword, DbPort, DbHost, DbName string) {
@@ -46,7 +62,7 @@ func (server *Server) Initialize(Dbdriver, DbUser, DbPassword, DbPort, DbHost, D
 
 	server.Router = mux.NewRouter()
 
-	server.BMIClient = bmi.NewBMIService()
+	server.NutriportClient = nutriportclient.NewClient()
 
 	server.InitializeRoutes()
 
