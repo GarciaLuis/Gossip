@@ -269,11 +269,24 @@ func (server *Server) GetUserBMI(w http.ResponseWriter, r *http.Request) {
 	weight := 160.0
 	height := 67.0
 
-	personInfo := server.BMIClient.CalculateImperialBMI(weight, height)
+	personInfo := server.NutriportClient.CalculateImperialBMI(weight, height)
 	fmt.Println("BMI: ", personInfo.BMI, personInfo.BMIDescription)
 
 	fmt.Println(personInfo)
 
 	responses.JSON(w, http.StatusOK, personInfo)
 
+}
+
+func (server *Server) GetUserTEE(w http.ResponseWriter, r *http.Request) {
+
+	age := 25
+	gender := 0 // 0 = male, 1 = female
+	weight := 143.0
+	activityLevel := "moderately active"
+
+	personInfo := server.NutriportClient.CalculateTotalEnergyExpenditure(age, gender, weight, activityLevel)
+	fmt.Println("TEE: ", personInfo.TEE)
+
+	responses.JSON(w, http.StatusOK, personInfo)
 }
