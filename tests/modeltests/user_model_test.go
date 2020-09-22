@@ -94,7 +94,7 @@ func TestUpdateUser(t *testing.T) {
 		Password: "dummypassword",
 	}
 
-	updatedUser, err := modifiedUser.UpdateUser(server.DB, user.ID)
+	updatedUser, err := modifiedUser.UpdateUserAccount(server.DB, user.ID)
 	if err != nil {
 		assert.Equal(t, updatedUser.ID, modifiedUser.ID)
 		assert.Equal(t, updatedUser.Email, modifiedUser.Email)
