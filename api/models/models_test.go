@@ -11,7 +11,6 @@ import (
 	_ "github.com/jinzhu/gorm/dialects/postgres"
 )
 
-var userInstance = User{}
 var testDB *gorm.DB
 
 func TestMain(m *testing.M) {
