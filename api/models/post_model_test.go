@@ -11,11 +11,11 @@ var postInstance = Post{}
 
 func TestingFindAllPosts(t *testing.T) {
 
-	err := refreshUserAndPostTable()
+	err := RefreshUserAndPostTable(testDB)
 	if err != nil {
 		log.Fatalf("Error refreshing user and posts tables %v\n", err)
 	}
-	_, _, err = seedUsersAndPosts()
+	_, _, err = SeedUsersAndPosts(testDB)
 	if err != nil {
 		log.Fatalf("Error seeding users and posts into table: %v\n", err)
 	}
@@ -29,12 +29,12 @@ func TestingFindAllPosts(t *testing.T) {
 
 func TestSavePost(t *testing.T) {
 
-	err := refreshUserAndPostTable()
+	err := RefreshUserAndPostTable(testDB)
 	if err != nil {
 		log.Fatalf("Error refreshing user and posts table: %v\n", err)
 	}
 
-	user, err := seedOneUser()
+	user, err := SeedOneUser(testDB)
 	if err != nil {
 		log.Fatalf("Cannot seed user %v\n", err)
 	}
@@ -61,12 +61,12 @@ func TestSavePost(t *testing.T) {
 
 func TestGetPostByID(t *testing.T) {
 
-	err := refreshUserAndPostTable()
+	err := RefreshUserAndPostTable(testDB)
 	if err != nil {
 		log.Fatalf("Error refreshing user and post table: %v\n", err)
 	}
 
-	post, err := seedOneUserAndOnePost()
+	post, err := SeedOneUserAndOnePost(testDB)
 	if err != nil {
 		log.Fatalf("Error seeding the table")
 	}
@@ -84,11 +84,11 @@ func TestGetPostByID(t *testing.T) {
 
 func TestUpdatePost(t *testing.T) {
 
-	err := refreshUserAndPostTable()
+	err := RefreshUserAndPostTable(testDB)
 	if err != nil {
 		log.Fatalf("Error refreshing user and post table: %v\n", err)
 	}
-	post, err := seedOneUserAndOnePost()
+	post, err := SeedOneUserAndOnePost(testDB)
 	if err != nil {
 		log.Fatal("Error Seeding table")
 	}
@@ -111,11 +111,11 @@ func TestUpdatePost(t *testing.T) {
 
 func TestDeletePost(t *testing.T) {
 
-	err := refreshUserAndPostTable()
+	err := RefreshUserAndPostTable(testDB)
 	if err != nil {
 		log.Fatalf("Error refreshing user and post table: %v\n", err)
 	}
-	post, err := seedOneUserAndOnePost()
+	post, err := SeedOneUserAndOnePost(testDB)
 	if err != nil {
 		log.Fatalf("Error Seeding tables")
 	}

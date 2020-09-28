@@ -11,12 +11,12 @@ var userInstance = User{}
 
 func TestFindAllUsers(t *testing.T) {
 
-	err := refreshUserTable()
+	err := RefreshUserTable(testDB)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	err = seedUsers()
+	err = SeedUsers(testDB)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -31,7 +31,7 @@ func TestFindAllUsers(t *testing.T) {
 
 func TestSaveUser(t *testing.T) {
 
-	err := refreshUserTable()
+	err := RefreshUserTable(testDB)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -56,12 +56,12 @@ func TestSaveUser(t *testing.T) {
 
 func TestGetUserByID(t *testing.T) {
 
-	err := refreshUserTable()
+	err := RefreshUserTable(testDB)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	user, err := seedOneUser()
+	user, err := SeedOneUser(testDB)
 	if err != nil {
 		log.Fatalf("Error returned while seeding 1 user: %v\n", err)
 	}
@@ -78,12 +78,12 @@ func TestGetUserByID(t *testing.T) {
 
 func TestUpdateUser(t *testing.T) {
 
-	err := refreshUserTable()
+	err := RefreshUserTable(testDB)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	user, err := seedOneUser()
+	user, err := SeedOneUser(testDB)
 	if err != nil {
 		log.Fatalf("Cannot seed user: %v\n", err)
 	}
@@ -105,12 +105,12 @@ func TestUpdateUser(t *testing.T) {
 
 func TestDeleteUser(t *testing.T) {
 
-	err := refreshUserTable()
+	err := RefreshUserTable(testDB)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	user, err := seedOneUser()
+	user, err := SeedOneUser(testDB)
 	if err != nil {
 		log.Fatalf("Error seeding 1 user: %v\n", err)
 	}
