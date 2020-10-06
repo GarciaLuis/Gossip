@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/garcialuis/Gossip/api/mocks"
 	"github.com/garcialuis/Gossip/api/models"
 
 	nutriportclient "github.com/garcialuis/Nutriport/sdk/client"
@@ -87,9 +88,7 @@ func (server *Server) InitializeTestServer(Dbdriver, DbUser, DbPassword, DbPort,
 	server.DB.Debug().AutoMigrate(&models.User{}, &models.Post{})
 
 	server.Router = mux.NewRouter()
-
-	// TODO: Initialize NutriportClient to Mock
-	server.NutriportClient = nutriportclient.NewClient()
+	server.NutriportClient = mocks.NewNutriportClientMock()
 
 	server.InitializeRoutes()
 
