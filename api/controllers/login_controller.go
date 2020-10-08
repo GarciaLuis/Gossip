@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"net/http"
 
@@ -13,6 +12,13 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
+// Login Handler:
+// swagger:route POST /login users LoginUser
+// Logs in user given the login credentials
+//
+//	Responses:
+//		200: authToken
+//		422: description: Unprocessable Entity
 func (server *Server) Login(w http.ResponseWriter, r *http.Request) {
 
 	body, err := ioutil.ReadAll(r.Body)
@@ -42,9 +48,7 @@ func (server *Server) Login(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	fmt.Println("Logged in, returning token: ", token)
-
-	responses.JSON(w, http.StatusOK, token)
+	responses.JSON(w, http.StatusOK, models.Token{Token: token})
 }
 
 func (server *Server) SignIn(email, password string) (string, error) {

@@ -12,12 +12,42 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
+// User represents the user for this application
+//
+// A user can create, delete, and edit their own posts
+// swagger:model
 type User struct {
-	ID        uint32    `json:"id" gorm:"primary_key;auto_increment"`
-	Nickname  string    `json:"nickname" gorm:"size:255;not null;unique"`
-	Email     string    `json:"email" gorm:"size:100;not null;unique"`
-	Password  string    `json:"password" gorm:"size:100;not null;"`
+	// the id for this user, created by the database
+	// required: false
+	// min: 1
+	ID uint32 `json:"id" gorm:"primary_key;auto_increment"`
+	// the nickname/username for the user
+	// required: true
+	Nickname string `json:"nickname" gorm:"size:255;not null;unique"`
+	// the email address for the user
+	// required: true
+	// example: user@email.com
+	Email string `json:"email" gorm:"size:100;not null;unique"`
+	// the user's login password
+	// required: true
+	Password string `json:"password" gorm:"size:100;not null;"`
+	// the user's age
+	// required: true
+	Age uint8 `json:"age" gorm:"size:15"`
+	// the user's gender
+	// required: true
+	Gender uint8 `json:"gender" gorm:"size:2"`
+	// the user's height in inches
+	// required: true
+	Height float64 `json:"height" gorm:"size:15"`
+	// the user's weight in lbs
+	// required: true
+	Weight float64 `json:"weight" gorm:"size:100"`
+	// The time that the user record was created in db
+	// read only: true
 	CreatedAt time.Time `json:"created_at" gorm:"default:CURRENT_TIMESTAMP"`
+	// The time the user record is updated in the db
+	// read only: true
 	UpdatedAt time.Time `json:"updated_at" gorm:"default:CURRENT_TIMESTAMP"`
 }
 
@@ -141,7 +171,7 @@ func (u *User) FindUserByID(db *gorm.DB, uid uint32) (*User, error) {
 	return u, err
 }
 
-func (u *User) UpdateUser(db *gorm.DB, uid uint32) (*User, error) {
+func (u *User) UpdateUserAccount(db *gorm.DB, uid uint32) (*User, error) {
 
 	// Hash password:
 	err := u.BeforeSave()
@@ -151,10 +181,10 @@ func (u *User) UpdateUser(db *gorm.DB, uid uint32) (*User, error) {
 
 	db = db.Debug().Model(&User{}).Where("id = ?", uid).Take(&User{}).UpdateColumns(
 		map[string]interface{}{
-			"password":  u.Password,
-			"nickname":  u.Nickname,
-			"email":     u.Email,
-			"update_at": time.Now(),
+			"password":   u.Password,
+			"nickname":   u.Nickname,
+			"email":      u.Email,
+			"updated_at": time.Now(),
 		},
 	)
 	if db.Error != nil {
@@ -163,6 +193,29 @@ func (u *User) UpdateUser(db *gorm.DB, uid uint32) (*User, error) {
 
 	// Take updated user record
 	err = db.Debug().Model(&User{}).Where("id = ?", uid).Take(&u).Error
+	if err != nil {
+		return &User{}, err
+	}
+
+	return u, nil
+}
+
+func (u *User) UpdateUserAttributes(db *gorm.DB, uid uint32) (*User, error) {
+
+	db = db.Debug().Model(&User{}).Where("id = ?", uid).Take(&User{}).UpdateColumns(
+		map[string]interface{}{
+			"age":        u.Age,
+			"weight":     u.Weight,
+			"height":     u.Height,
+			"updated_at": time.Now(),
+		},
+	)
+	if db.Error != nil {
+		return &User{}, db.Error
+	}
+
+	// Take updated user record
+	err := db.Debug().Model(&User{}).Where("id = ?", uid).Take(&u).Error
 	if err != nil {
 		return &User{}, err
 	}
@@ -195,4 +248,49 @@ func (u *User) FindUserByEmail(db *gorm.DB, email string) (*User, error) {
 	}
 
 	return u, err
+}
+
+func (u *User) UpdateWeight(db *gorm.DB, uid uint32, weight float64) (*User, error) {
+	db = db.Debug().Model(&User{}).Where("id = ?", uid).Take(&User{}).UpdateColumn("weight", weight)
+
+	if db.Error != nil {
+		return &User{}, db.Error
+	}
+
+	err := db.Debug().Model(&User{}).Where("id = ?", uid).Take(&u).Error
+	if err != nil {
+		return &User{}, err
+	}
+
+	return u, nil
+}
+
+func (u *User) UpdateHeight(db *gorm.DB, uid uint32, height float64) (*User, error) {
+	db = db.Debug().Model(&User{}).Where("id = ?", uid).Take(&User{}).UpdateColumn("height", height)
+
+	if db.Error != nil {
+		return &User{}, db.Error
+	}
+
+	err := db.Debug().Model(&User{}).Where("id = ?", uid).Take(&u).Error
+	if err != nil {
+		return &User{}, err
+	}
+
+	return u, nil
+}
+
+func (u *User) UpdateAge(db *gorm.DB, uid uint32, age uint8) (*User, error) {
+	db = db.Debug().Model(&User{}).Where("id = ?", uid).Take(&User{}).UpdateColumn("age", age)
+
+	if db.Error != nil {
+		return &User{}, db.Error
+	}
+
+	err := db.Debug().Model(&User{}).Where("id = ?", uid).Take(&u).Error
+	if err != nil {
+		return &User{}, err
+	}
+
+	return u, nil
 }

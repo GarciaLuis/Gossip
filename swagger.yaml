@@ -1,0 +1,354 @@
+basePath: /
+consumes:
+- application/json
+definitions:
+  Post:
+    description: A Post can be created, edited or deleted by its author.
+    properties:
+      author_id:
+        description: ID of the author user
+        format: uint32
+        type: integer
+        x-go-name: AuthorID
+      content:
+        description: Content holds the main information that the use wants to share
+        type: string
+        x-go-name: Content
+      created_at:
+        description: createdAt is the time that the post was created in the db
+        format: date-time
+        type: string
+        x-go-name: CreatedAt
+      id:
+        description: ID that belongs to the post, assigned by the db
+        format: uint64
+        minimum: 1
+        type: integer
+        x-go-name: ID
+      title:
+        description: The post's title
+        type: string
+        x-go-name: Title
+      updated_at:
+        description: updatedAt is the time that the post is updated
+        format: date-time
+        type: string
+        x-go-name: UpdatedAt
+      user:
+        $ref: '#/definitions/User'
+    required:
+    - title
+    - content
+    - author_id
+    title: Post represents a contribution that a user has made to the blog.
+    type: object
+    x-go-package: github.com/garcialuis/Gossip/api/models
+  Token:
+    description: Token is the entity that holds the security token
+    properties:
+      token:
+        description: Token is a jwt token needed for authenticated requests
+        type: string
+        x-go-name: Token
+    required:
+    - token
+    type: object
+    x-go-package: github.com/garcialuis/Gossip/api/models
+  User:
+    description: A user can create, delete, and edit their own posts
+    properties:
+      created_at:
+        description: The time that the user record was created in db
+        format: date-time
+        readOnly: true
+        type: string
+        x-go-name: CreatedAt
+      email:
+        description: the email address for the user
+        example: user@email.com
+        type: string
+        x-go-name: Email
+      id:
+        description: the id for this user, created by the database
+        format: uint32
+        minimum: 1
+        type: integer
+        x-go-name: ID
+      nickname:
+        description: the nickname/username for the user
+        type: string
+        x-go-name: Nickname
+      password:
+        description: the user's login password
+        type: string
+        x-go-name: Password
+      updated_at:
+        description: The time the user record is updated in the db
+        format: date-time
+        readOnly: true
+        type: string
+        x-go-name: UpdatedAt
+    required:
+    - nickname
+    - email
+    - password
+    title: User represents the user for this application
+    type: object
+    x-go-package: github.com/garcialuis/Gossip/api/models
+info:
+  description: Documentation for Gossip API
+  title: Gossip API
+  version: 1.0.0
+paths:
+  /:
+    get:
+      operationId: Home
+      responses:
+        "200":
+          description: ' OK - Welcomes to Gossip API'
+      tags:
+      - home
+  /login:
+    post:
+      description: Logs in user given the login credentials
+      operationId: LoginUser
+      responses:
+        "200":
+          $ref: '#/responses/authToken'
+        "422":
+          description: ' Unprocessable Entity'
+      tags:
+      - users
+  /post/{id}:
+    get:
+      operationId: GetPost
+      parameters:
+      - description: The identification key
+        format: int64
+        in: path
+        name: id
+        required: true
+        type: integer
+        x-go-name: ID
+      responses:
+        "200":
+          $ref: '#/responses/postResponse'
+        "400":
+          description: ' Bad Request'
+        "500":
+          description: ' Internal Server Error'
+      tags:
+      - posts
+    put:
+      operationId: UpdatePost
+      parameters:
+      - description: The identification key
+        format: int64
+        in: path
+        name: id
+        required: true
+        type: integer
+        x-go-name: ID
+      responses:
+        "200":
+          $ref: '#/responses/postResponse'
+        "400":
+          description: ' Bad Request'
+        "401":
+          description: ' Unauthorized'
+        "404":
+          description: ' Post Not Found'
+        "422":
+          description: ' Unprocessable Entity'
+      security:
+      - api_key: []
+      tags:
+      - posts
+  /posts:
+    get:
+      operationId: GetPosts
+      responses:
+        "200":
+          $ref: '#/responses/postsResponse'
+        "500":
+          description: ' Internal Server Error'
+      tags:
+      - posts
+    post:
+      operationId: CreatePost
+      responses:
+        "201":
+          $ref: '#/responses/postResponse'
+        "401":
+          description: ' Unauthorized'
+        "422":
+          description: ' Unprocessable Entity'
+        "500":
+          description: ' Internal Server Error'
+      tags:
+      - posts
+  /posts/{id}:
+    delete:
+      operationId: DeletePost
+      parameters:
+      - description: The identification key
+        format: int64
+        in: path
+        name: id
+        required: true
+        type: integer
+        x-go-name: ID
+      responses:
+        "204":
+          description: ' No Content'
+        "400":
+          description: ' Bad Request'
+        "401":
+          description: ' Unauthorized'
+        "404":
+          description: ' Post Not Found'
+      security:
+      - api_key: []
+      tags:
+      - posts
+  /private/users/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Returns authenticated user's information with additional sensitive info
+      operationId: GetAuthUser
+      parameters:
+      - description: The identification key
+        format: int64
+        in: path
+        name: id
+        required: true
+        type: integer
+        x-go-name: ID
+      produces:
+      - application/json
+      responses:
+        "200":
+          $ref: '#/responses/authenticatedUser'
+        "400":
+          description: ' Bad Request'
+        "401":
+          description: ' Unauthorized'
+      security:
+      - api_key: []
+      tags:
+      - private_user
+  /users:
+    delete:
+      operationId: DeleteUser
+      responses:
+        "204":
+          description: ' No Content'
+        "401":
+          description: ' Unauthorized'
+        "422":
+          description: ' Unprocessable Entity'
+      security:
+      - api_key: []
+      tags:
+      - users
+    get:
+      consumes:
+      - application/json
+      description: GetUsers returns a list of all users
+      operationId: getUsers
+      produces:
+      - application/json
+      responses:
+        "200":
+          $ref: '#/responses/usersResponse'
+        "500":
+          description: ' Internal Server Error'
+      tags:
+      - users
+    post:
+      consumes:
+      - application/json
+      description: Creates a new user record
+      operationId: createUser
+      produces:
+      - application/json
+      responses:
+        "201":
+          $ref: '#/responses/userResponse'
+        "422":
+          description: ' Unprocessable entity - unable to process input data'
+        "500":
+          description: ' Internal Server Error'
+      tags:
+      - users
+    put:
+      operationId: UpdateUser
+      responses:
+        "200":
+          description: ' userResponse'
+        "401":
+          description: ' Unauthorized'
+        "422":
+          description: ' Unprocessable Entity'
+        "500":
+          description: ' Internal Server Error'
+      security:
+      - api_key: []
+      tags:
+      - users
+  /users/{id}:
+    get:
+      description: GetUser returns a user record with the specified userID
+      operationId: getUser
+      parameters:
+      - description: The identification key
+        format: int64
+        in: path
+        name: id
+        required: true
+        type: integer
+        x-go-name: ID
+      responses:
+        "200":
+          $ref: '#/responses/userResponse'
+        "400":
+          description: ' Bad Request'
+      tags:
+      - users
+produces:
+- application/json
+responses:
+  authToken:
+    description: Authorization Token
+    schema:
+      $ref: '#/definitions/Token'
+  authenticatedUser:
+    description: User record that may include sensitive information
+    schema:
+      $ref: '#/definitions/User'
+  postResponse:
+    description: Post model
+    schema:
+      $ref: '#/definitions/Post'
+  postsResponse:
+    description: List of Posts
+    schema:
+      items:
+        $ref: '#/definitions/Post'
+      type: array
+  userResponse:
+    description: User record
+    schema:
+      $ref: '#/definitions/User'
+  usersResponse:
+    description: A list of users
+    schema:
+      items:
+        $ref: '#/definitions/User'
+      type: array
+schemes:
+- http
+security:
+- api_key: []
+swagger: "2.0"

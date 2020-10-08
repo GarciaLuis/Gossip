@@ -9,13 +9,32 @@ import (
 	"github.com/jinzhu/gorm"
 )
 
+// Post represents a contribution that a user has made to the blog.
+//
+// A Post can be created, edited or deleted by its author.
+// swagger:model
 type Post struct {
-	ID        uint64    `json:"id" gorm:"primary_key;auto_increment"`
-	Title     string    `json:"title" gorm:"size:255;not null;unique"`
-	Content   string    `json:"content" gorm:"size:255;not null"`
-	Author    User      `json:"user"`
-	AuthorID  uint32    `json:"author_id" gorm:"not null"`
+	// ID that belongs to the post, assigned by the db
+	// required: false
+	// min: 1
+	ID uint64 `json:"id" gorm:"primary_key;auto_increment"`
+	// The post's title
+	// Required: true
+	Title string `json:"title" gorm:"size:255;not null;unique"`
+	// Content holds the main information that the use wants to share
+	// Required: true
+	Content string `json:"content" gorm:"size:255;not null"`
+	// Author is the user that created the post
+	// required: false
+	Author User `json:"user"`
+	// ID of the author user
+	// required: true
+	AuthorID uint32 `json:"author_id" gorm:"not null"`
+	// createdAt is the time that the post was created in the db
+	// required: false
 	CreatedAt time.Time `json:"created_at" gorm:"default:CURRENT_TIMESTAMP"`
+	// updatedAt is the time that the post is updated
+	// required: false
 	UpdatedAt time.Time `json:"updated_at" gorm:"default:CURRENT_TIMESTAMP"`
 }
 

@@ -15,6 +15,14 @@ import (
 	"github.com/gorilla/mux"
 )
 
+// CreatePost is responsible for creating new posts in database
+// swagger:route POST /posts posts CreatePost
+//
+// 	Responses:
+//		201: postResponse
+//		422: description: Unprocessable Entity
+//		401: description: Unauthorized
+//		500: description: Internal Server Error
 func (server *Server) CreatePost(w http.ResponseWriter, r *http.Request) {
 
 	body, err := ioutil.ReadAll(r.Body)
@@ -59,6 +67,12 @@ func (server *Server) CreatePost(w http.ResponseWriter, r *http.Request) {
 	responses.JSON(w, http.StatusCreated, postCreated)
 }
 
+// GetPosts Handler:
+// swagger:route GET /posts posts GetPosts
+//
+//	Responses:
+//		200: postsResponse
+//		500: description: Internal Server Error
 func (server *Server) GetPosts(w http.ResponseWriter, r *http.Request) {
 
 	post := models.Post{}
@@ -72,6 +86,13 @@ func (server *Server) GetPosts(w http.ResponseWriter, r *http.Request) {
 	responses.JSON(w, http.StatusOK, posts)
 }
 
+// GetPost Handler:
+// swagger:route GET /post/{id} posts GetPost
+//
+//	Responses:
+//		200: postResponse
+//		400: description: Bad Request
+//		500: description: Internal Server Error
 func (server *Server) GetPost(w http.ResponseWriter, r *http.Request) {
 
 	post := models.Post{}
@@ -93,6 +114,18 @@ func (server *Server) GetPost(w http.ResponseWriter, r *http.Request) {
 
 }
 
+// UpdatePost Handler:
+// swagger:route PUT /post/{id} posts UpdatePost
+//
+//	Security:
+//	- api_key:
+//
+//	Responses:
+//		200: postResponse
+//		400: description: Bad Request
+//		401: description: Unauthorized
+//		404: description: Post Not Found
+//		422: description: Unprocessable Entity
 func (server *Server) UpdatePost(w http.ResponseWriter, r *http.Request) {
 
 	vars := mux.Vars(r)
@@ -157,6 +190,17 @@ func (server *Server) UpdatePost(w http.ResponseWriter, r *http.Request) {
 	responses.JSON(w, http.StatusOK, postUpdated)
 }
 
+// DeletePost Handler:
+// swagger:route DELETE /posts/{id} posts DeletePost
+//
+//	Security:
+//	- api_key:
+//
+//	Responses:
+//		204: description: No Content
+//		400: description: Bad Request
+//		401: description: Unauthorized
+//		404: description: Post Not Found
 func (server *Server) DeletePost(w http.ResponseWriter, r *http.Request) {
 
 	vars := mux.Vars(r)
