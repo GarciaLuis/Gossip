@@ -11,6 +11,7 @@ import (
 	"testing"
 
 	"github.com/garcialuis/Gossip/api/models"
+	nutriportclient_models "github.com/garcialuis/Nutriport/sdk/models"
 	"gopkg.in/go-playground/assert.v1"
 )
 
@@ -186,4 +187,24 @@ func login(userEmail, userPassword string) {
 		log.Fatal(err)
 	}
 
+}
+
+func TestUserBMI(t *testing.T) {
+
+	url := "/user/bmi"
+
+	request, _ := http.NewRequest("GET", url, nil)
+	response := httptest.NewRecorder()
+
+	user := nutriportclient_models.Person{}
+
+	testServer.Router.ServeHTTP(response, request)
+	responseBody, _ := ioutil.ReadAll(response.Body)
+	err := json.Unmarshal(responseBody, &user)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	assert.Equal(t, 25.06, user.BMI)
 }
