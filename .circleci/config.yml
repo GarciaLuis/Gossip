@@ -43,3 +43,22 @@ jobs:
       - setup_remote_docker
 
       - run: echo "DEV BRANCH EXECUTED THIS JOB"
+
+workflows:
+  version: 2
+  test-build-tag:
+    jobs:
+      - test:
+        filters:
+          tags:
+            only: /.*/
+      - build:
+          requires:
+            - test
+          filters:
+            tags:
+              only: /^v.*/
+      - branch-job:
+        filters:
+          branches:
+            only: /develop/
