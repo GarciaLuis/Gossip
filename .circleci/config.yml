@@ -4,6 +4,7 @@
 version: 2
 jobs:
   build:
+    machine: true
     docker:
       # specify the version
       #- image: circleci/golang:1.9
@@ -20,3 +21,6 @@ jobs:
       # specify any bash command here prefixed with `run: `
       - run: go get -v -t -d ./...
       - run: go test -v ./...
+      
+      - run: docker -v
+      - run: docker build -t gossip:0.0.0 .
