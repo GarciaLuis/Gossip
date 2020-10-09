@@ -37,7 +37,7 @@ jobs:
       - run: docker -v
       - run: docker build -t gossip:0.0.0 .
   branch-job:
-    executors: docker-publisher
+    executor: docker-publisher
     steps:
       - checkout
       - setup_remote_docker
