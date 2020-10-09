@@ -33,4 +33,6 @@ jobs:
   branch-job:
     docker:
     steps:
+      - setup_remote_docker
+      
       - run: echo "DEV BRANCH EXECUTED THIS JOB"
