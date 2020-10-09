@@ -4,7 +4,6 @@
 version: 2
 jobs:
   build:
-    machine: true
     docker:
       # specify the version
       #- image: circleci/golang:1.9
@@ -17,10 +16,14 @@ jobs:
     working_directory: ~/go/src/github.com/garcialuis/Gossip
     steps:
       - checkout
+      - setup_remote_docker
 
       # specify any bash command here prefixed with `run: `
       - run: go get -v -t -d ./...
       - run: go test -v ./...
+
+      - run: echo $CIRCLE_BRANCH
+      - run: echo $CIRCLE_BUILD_NUM
       
       - run: docker -v
       - run: docker build -t gossip:0.0.0 .
