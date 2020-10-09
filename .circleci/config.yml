@@ -31,5 +31,6 @@ jobs:
       - run: docker -v
       - run: docker build -t gossip:0.0.0 .
   branch-job:
+    docker:
     steps:
       - run: echo "DEV BRANCH EXECUTED THIS JOB"
