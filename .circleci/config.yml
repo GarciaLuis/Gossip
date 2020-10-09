@@ -5,7 +5,7 @@ version: 2.1
 executors:
   docker-publisher:
     environment:
-      IMAGE_NAME: garcialuiz/reponame
+      IMAGE_NAME: $DOCKERHUB_USERNAME/gossip
     docker:
       - image: circleci/buildpack-deps:stretch
 jobs:
@@ -34,15 +34,35 @@ jobs:
       - checkout
       - setup_remote_docker
 
-      - run: docker -v
-      - run: docker build -t gossip:0.0.0 .
-  branch-job:
+      - run: 
+        name: Build Docker image
+        command: docker build -t gossip:0.0.0 .
+      - run:
+        name: Archive Docker image
+        command: docker save -o image.tar $IMAGE_NAME
+      - persist_to_workspace:
+        root: .
+        paths:
+          - ./image.tar
+  publish-tagged:
     executor: docker-publisher
     steps:
-      - checkout
+      - attach_workspace:
+        at: /tmp/workspace
       - setup_remote_docker
+      - run:
+        name: Load Docker image from archive
+        command: docker load -i /tmp/workspace/image.tar
+      - run: 
+        name: Publish Docker image to Docker Hub
+        command: | 
+        echo "$DOCKERHUB_PASS" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin 
+        IMAGE_TAG=${CIRCLE_TAG/v/''}
+        docker tag $IMAGE_NAME:LATEST $IMAGE_NAME:$IMAGE_TAG
+        docker push $IMAGE_NAME:latest
+        docker push $IMAGE_NAME:$IMAGE_TAG
 
-      - run: echo "DEV BRANCH EXECUTED THIS JOB"
+      - run: echo "Done pushing image to Docker Hub"
 
 workflows:
   version: 2
@@ -60,7 +80,6 @@ workflows:
               only: /^v.*/
             branches:
               ignore: /.*/
-      - branch-job:
-        filters:
-          branches:
-            only: /develop/
+      - publish-tagged:
+          requires:
+            - build
