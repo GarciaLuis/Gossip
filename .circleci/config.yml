@@ -28,7 +28,7 @@ jobs:
       - run: go get -v -t -d ./...
       - run: go test -v ./...
   build:
-    docker:
+    executor: docker-publisher
     working_directory: ~/go/src/github.com/garcialuis/Gossip
     steps:
       - checkout
