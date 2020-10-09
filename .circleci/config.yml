@@ -33,7 +33,7 @@ jobs:
   branch-job:
     steps:
       - run: echo "DEV BRANCH EXECUTED THIS JOB"
-
+      
 workflows:
   version: 2
   test-build-tag:
@@ -47,7 +47,7 @@ workflows:
             - test
           filters:
             tags:
-              only:/^v.*/
+              only: /^v.*/
       - branch-job:
         filters:
           branches:
