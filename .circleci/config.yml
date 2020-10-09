@@ -15,24 +15,24 @@ jobs:
     # Working directory:
     working_directory: ~/go/src/github.com/garcialuis/Gossip
     steps:
-      -checkout
-      -setup_remote_docker
+      - checkout
+      - setup_remote_docker
 
       # specify any bash command here prefixed with `run: `
-      -run: go get -v -t -d ./...
-      -run: go test -v ./...
+      - run: go get -v -t -d ./...
+      - run: go test -v ./...
   build:
     docker:
-      working_directory: ~/go/src/github.com/garcialuis/Gossip
+    working_directory: ~/go/src/github.com/garcialuis/Gossip
     steps:
-      -checkout
-      -setup_remote_docker
+      - checkout
+      - setup_remote_docker
 
-      -run: docker -v
-      -run: docker build -t gossip:0.0.0 .
+      - run: docker -v
+      - run: docker build -t gossip:0.0.0 .
   branch-job:
     steps:
-      -run: echo "DEV BRANCH EXECUTED THIS JOB"
+      - run: echo "DEV BRANCH EXECUTED THIS JOB"
 
 workflows:
   version: 2
