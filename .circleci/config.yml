@@ -3,7 +3,7 @@
 # Check https://circleci.com/docs/2.0/language-go/ for more details
 version: 2
 jobs:
-  build:
+  test:
     docker:
       # specify the version
       #- image: circleci/golang:1.9
@@ -21,9 +21,34 @@ jobs:
       # specify any bash command here prefixed with `run: `
       - run: go get -v -t -d ./...
       - run: go test -v ./...
+  build:
+    docker:
+      working_directory: ~/go/src/github.com/garcialuis/Gossip
+    steps:
+      -checkout
+      -setup_remote_docker
 
-      - run: echo $CIRCLE_BRANCH
-      - run: echo $CIRCLE_BUILD_NUM
-      
-      - run: docker -v
-      - run: docker build -t gossip:0.0.0 .
+      -run: docker -v
+      -run: docker build -t gossip:0.0.0 .
+  branch-job:
+    steps:
+      -run: echo "DEV BRANCH EXECUTED THIS JOB"
+
+workflows:
+  version: 2
+  test-build-tag:
+    jobs:
+      - test:
+        filters:
+          tags:
+            only: /.*/
+      - build:
+        requires:
+          - test
+          filters:
+            tags:
+              only:/^v.*/
+      - branch-job:
+        filters:
+          branches:
+            only: /develop/
