@@ -58,6 +58,8 @@ workflows:
           filters:
             tags:
               only: /^v.*/
+            branches:
+              ignore: /.*/
       - branch-job:
         filters:
           branches:
