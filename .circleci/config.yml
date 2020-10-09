@@ -2,6 +2,12 @@
 #
 # Check https://circleci.com/docs/2.0/language-go/ for more details
 version: 2
+executors:
+  docker-publisher:
+    environment:
+      IMAGE_NAME: garcialuiz/reponame
+    docker:
+      - image: circleci/buildpack-deps:stretch
 jobs:
   test:
     docker:
@@ -31,8 +37,9 @@ jobs:
       - run: docker -v
       - run: docker build -t gossip:0.0.0 .
   branch-job:
-    docker:
+    executors: docker-publisher
     steps:
+      - checkout
       - setup_remote_docker
-      
+
       - run: echo "DEV BRANCH EXECUTED THIS JOB"
