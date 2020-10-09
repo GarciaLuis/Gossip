@@ -49,6 +49,6 @@ workflows:
             tags:
               only:/^v.*/
       - branch-job:
-          filters:
-            branches:
-              only: /develop/
+        filters:
+          branches:
+            only: /develop/
