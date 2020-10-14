@@ -72,12 +72,14 @@ workflows:
   test-build-tag:
     jobs:
       - test:
-        filters:
-          tags:
-            only: /^v.*/
-          branches:
-            ignore: /.*/
+          filters:
+            tags:
+              only: /^v.*/
+            branches:
+              ignore: /.*/
       - build:
+          requires:
+            - test
           filters:
             tags:
               only: /^v.*/
