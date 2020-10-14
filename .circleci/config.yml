@@ -5,7 +5,7 @@ version: 2.1
 executors:
   docker-publisher:
     environment:
-      IMAGE_NAME: $DOCKERHUB_USERNAME/gossip
+      IMAGE_NAME: garcialuiz/gossip
     docker:
       - image: circleci/buildpack-deps:stretch
 jobs:
