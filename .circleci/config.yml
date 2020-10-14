@@ -73,11 +73,9 @@ workflows:
           tags:
             only: /.*/
       - build:
-          requires:
-            - test
           filters:
             tags:
-              only: /^v.*/
+              only: /.*/
             branches:
               ignore: /.*/
       - publish-tagged:
