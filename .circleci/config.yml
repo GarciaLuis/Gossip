@@ -66,12 +66,17 @@ jobs:
 
 workflows:
   version: 2
+  test:
+    jobs:
+      - test
   test-build-tag:
     jobs:
       - test:
         filters:
           tags:
-            only: /.*/
+            only: /^v.*/
+          branches:
+            ignore: /.*/
       - build:
           filters:
             tags:
@@ -81,3 +86,8 @@ workflows:
       - publish-tagged:
           requires:
             - build
+          filters:
+            tags:
+              only: /^v.*/
+            branches:
+              ignore: /.*/
