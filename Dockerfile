@@ -1,17 +1,14 @@
-FROM golang:1.12-alpine
+FROM golang:1.12-alpine AS build
 
-RUN apk update && apk add --no-cache git
-
-WORKDIR /usr/src/app
-
-COPY go.mod go.sum ./
-
-RUN go mod download
-
+RUN apk --no-cache add gcc g++ make git
+WORKDIR /go/src/app
 COPY . .
+RUN go get ./...
+RUN GOOS=linux go build -o ./bin/gossip
 
+FROM alpine:3.9
+RUN apk --no-cache add ca-certificates
+WORKDIR /usr/bin
+COPY --from=build /go/src/app/bin /go/bin
 EXPOSE 8080
-
-RUN go get github.com/githubnemo/CompileDaemon
-
-ENTRYPOINT CompileDaemon -log-prefix=false -build="go build ." -command="./Gossip"
+ENTRYPOINT /go/bin/gossip
