@@ -5,3 +5,15 @@ install_swagger:
 
 swagger:
 	swagger generate spec -o ./swagger.yaml --scan-models
+
+kubectl_up:
+	kubectl create -f k8s-postgres-service.yaml -f k8s-postgres-deployment.yaml && kubectl create -f k8s-service.yaml -f k8s-deployment.yaml
+
+kubectl_down:
+	kubectl delete -f k8s-service.yaml -f k8s-deployment.yaml && kubectl delete -f k8s-postgres-service.yaml -f k8s-postgres-deployment.yaml
+
+kubectl_display:
+	kubectl get deployments,services,pods,endpoints,rs
+
+minikube_env:
+	minikube docker-env
