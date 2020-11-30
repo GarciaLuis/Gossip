@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: gossip-k8s-config
+  namespace: default
+data:
+  service.url: "http://nutriport:8085/"
