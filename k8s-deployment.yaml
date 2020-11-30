@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata: 
-  name: gossip-deployment
+  name: gossip
   labels:
     app: gossip
 spec:
@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: gossip
-        image: gossip:0.0.5
+        image: gossip:0.0.2
         ports:
         - containerPort: 8080
         env:
@@ -33,6 +33,11 @@ spec:
           value: ""
         - name: DB_PORT
           value: ""
+        - name: NUTRIPORT_SERVICE_URL
+          valueFrom:
+            configMapKeyRef:
+              name: gossip-k8s-config
+              key: service.url
         resources:
           requests:
             memory: 64Mi
