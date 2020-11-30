@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: gossip
+  labels:
+    app: gossip
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: gossip
+  template:
+    metadata:
+      labels:
+        app: gossip
+        tier: service
+    spec:
+      containers:
+      - name: gossip
+        image: gossip:0.0.2
+        ports:
+        - containerPort: 8080
+        env:
+        - name: DB_POSTGRES_DRIVER
+          value: "postgres"
+        - name: DB_USER
+          value: ""
+        - name: DB_PASSWORD
+          value: ""
+        - name: DB_HOST
+          value: ""
+        - name: DB_NAME
+          value: ""
+        - name: DB_PORT
+          value: ""
+        - name: NUTRIPORT_SERVICE_URL
+          valueFrom:
+            configMapKeyRef:
+              name: gossip-k8s-config
+              key: service.url
+        resources:
+          requests:
+            memory: 64Mi
+            cpu: 250m
+          limits:
+            memory: 128Mi
+            cpu: 250m
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 8080
+          initialDelaySeconds: 60
+          timeoutSeconds: 15
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 8080
+          initialDelaySeconds: 5
+          timeoutSeconds: 5
