@@ -294,3 +294,18 @@ func (u *User) UpdateAge(db *gorm.DB, uid uint32, age uint8) (*User, error) {
 
 	return u, nil
 }
+
+func (u *User) GetWeightAndHeight(db *gorm.DB, uid uint32) (weight, height float64, err error) {
+
+	err = db.Debug().Model(&User{}).Where("id = ?", uid).Take(&u).Error
+
+	if err != nil {
+		return weight, height, err
+	}
+
+	if gorm.IsRecordNotFoundError(err) {
+		return weight, height, errors.New("User with the specified ID not found")
+	}
+
+	return u.Weight, u.Height, err
+}

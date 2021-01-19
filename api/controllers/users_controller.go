@@ -319,13 +319,23 @@ func (server *Server) DeleteUser(w http.ResponseWriter, r *http.Request) {
 
 func (server *Server) GetUserBMI(w http.ResponseWriter, r *http.Request) {
 
-	weight := 160.0
-	height := 67.0
+	vars := mux.Vars(r)
+	varUID, err := strconv.ParseUint(vars["id"], 10, 32)
+	uid := uint32(varUID)
+	if err != nil {
+		responses.ERROR(w, http.StatusBadRequest, err)
+		return
+	}
+
+	user := models.User{}
+	weight, height, err := user.GetWeightAndHeight(server.DB, uid)
+
+	if err != nil {
+		responses.ERROR(w, http.StatusBadRequest, err)
+		return
+	}
 
 	personInfo := server.NutriportClient.CalculateImperialBMI(weight, height)
-	fmt.Println("BMI: ", personInfo.BMI, personInfo.BMIDescription)
-
-	fmt.Println(personInfo)
 
 	responses.JSON(w, http.StatusOK, personInfo)
 
@@ -333,13 +343,19 @@ func (server *Server) GetUserBMI(w http.ResponseWriter, r *http.Request) {
 
 func (server *Server) GetUserTEE(w http.ResponseWriter, r *http.Request) {
 
-	age := 25
-	gender := 0 // 0 = male, 1 = female
-	weight := 143.0
 	activityLevel := "moderately active"
 
-	personInfo := server.NutriportClient.CalculateTotalEnergyExpenditure(age, gender, weight, activityLevel)
-	fmt.Println("TEE: ", personInfo.TEE)
+	vars := mux.Vars(r)
+	varUID, err := strconv.ParseUint(vars["id"], 10, 32)
+	uid := uint32(varUID)
+	if err != nil {
+		responses.ERROR(w, http.StatusBadRequest, err)
+		return
+	}
+
+	user := models.User{}
+	foundUser, err := user.FindUserByID(server.DB, uid)
+	personInfo := server.NutriportClient.CalculateTotalEnergyExpenditure(int(foundUser.Age), int(foundUser.Gender), foundUser.Weight, activityLevel)
 
 	responses.JSON(w, http.StatusOK, personInfo)
 }

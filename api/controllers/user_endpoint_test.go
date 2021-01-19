@@ -79,6 +79,10 @@ func TestCreateUser(t *testing.T) {
 		Nickname: "Tommy T",
 		Email:    "tommyt@email.com",
 		Password: "dummypassword",
+		Weight:   160.0,
+		Height:   67.0,
+		Age:      25,
+		Gender:   0,
 	}
 
 	// Convert newUser struct to io.Reader
@@ -191,7 +195,7 @@ func login(userEmail, userPassword string) {
 
 func TestUserBMI(t *testing.T) {
 
-	url := "/user/bmi"
+	url := fmt.Sprint("/user/bmi/", createdUserID)
 
 	request, _ := http.NewRequest("GET", url, nil)
 	response := httptest.NewRecorder()
@@ -207,4 +211,24 @@ func TestUserBMI(t *testing.T) {
 	}
 
 	assert.Equal(t, 25.06, user.BMI)
+}
+
+func TestUserTEE(t *testing.T) {
+
+	url := fmt.Sprint("/user/tee/", createdUserID)
+
+	request, _ := http.NewRequest("GET", url, nil)
+	response := httptest.NewRecorder()
+
+	user := nutriportclient_models.Person{}
+
+	testServer.Router.ServeHTTP(response, request)
+	responseBody, _ := ioutil.ReadAll(response.Body)
+	err := json.Unmarshal(responseBody, &user)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	assert.Equal(t, 2006.54, user.TEE)
 }
