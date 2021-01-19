@@ -343,8 +343,6 @@ func (server *Server) GetUserBMI(w http.ResponseWriter, r *http.Request) {
 
 func (server *Server) GetUserTEE(w http.ResponseWriter, r *http.Request) {
 
-	activityLevel := "moderately active"
-
 	vars := mux.Vars(r)
 	varUID, err := strconv.ParseUint(vars["id"], 10, 32)
 	uid := uint32(varUID)
@@ -355,7 +353,7 @@ func (server *Server) GetUserTEE(w http.ResponseWriter, r *http.Request) {
 
 	user := models.User{}
 	foundUser, err := user.FindUserByID(server.DB, uid)
-	personInfo := server.NutriportClient.CalculateTotalEnergyExpenditure(int(foundUser.Age), int(foundUser.Gender), foundUser.Weight, activityLevel)
+	personInfo := server.NutriportClient.CalculateTotalEnergyExpenditure(int(foundUser.Age), int(foundUser.Gender), foundUser.Weight, foundUser.ActivityLevel)
 
 	responses.JSON(w, http.StatusOK, personInfo)
 }

@@ -43,6 +43,9 @@ type User struct {
 	// the user's weight in lbs
 	// required: true
 	Weight float64 `json:"weight" gorm:"size:100"`
+	// the user's activity level
+	// required: true
+	ActivityLevel string `json:"activityLevel" gorm:"size:255"`
 	// The time that the user record was created in db
 	// read only: true
 	CreatedAt time.Time `json:"created_at" gorm:"default:CURRENT_TIMESTAMP"`

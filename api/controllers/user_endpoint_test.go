@@ -76,13 +76,14 @@ func TestCreateUser(t *testing.T) {
 	}
 
 	newUser := models.User{
-		Nickname: "Tommy T",
-		Email:    "tommyt@email.com",
-		Password: "dummypassword",
-		Weight:   160.0,
-		Height:   67.0,
-		Age:      25,
-		Gender:   0,
+		Nickname:      "Tommy T",
+		Email:         "tommyt@email.com",
+		Password:      "dummypassword",
+		Weight:        160.0,
+		Height:        67.0,
+		Age:           25,
+		Gender:        0,
+		ActivityLevel: "moderately active",
 	}
 
 	// Convert newUser struct to io.Reader
