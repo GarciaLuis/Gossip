@@ -198,7 +198,9 @@ func TestUserBMI(t *testing.T) {
 
 	url := fmt.Sprint("/user/bmi/", createdUserID)
 
+	authToken := "Bearer " + jwtToken.Token
 	request, _ := http.NewRequest("GET", url, nil)
+	request.Header.Add("Authorization", authToken)
 	response := httptest.NewRecorder()
 
 	user := nutriportclient_models.Person{}
@@ -218,7 +220,9 @@ func TestUserTEE(t *testing.T) {
 
 	url := fmt.Sprint("/user/tee/", createdUserID)
 
+	authToken := "Bearer " + jwtToken.Token
 	request, _ := http.NewRequest("GET", url, nil)
+	request.Header.Add("Authorization", authToken)
 	response := httptest.NewRecorder()
 
 	user := nutriportclient_models.Person{}

@@ -327,6 +327,17 @@ func (server *Server) GetUserBMI(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	tokenID, err := auth.ExtractTokenID(r)
+	if err != nil {
+		responses.ERROR(w, http.StatusUnauthorized, errors.New("Unauthorized"))
+		return
+	}
+
+	if tokenID != uid {
+		responses.ERROR(w, http.StatusUnauthorized, errors.New(http.StatusText(http.StatusUnauthorized)))
+		return
+	}
+
 	user := models.User{}
 	weight, height, err := user.GetWeightAndHeight(server.DB, uid)
 
@@ -348,6 +359,17 @@ func (server *Server) GetUserTEE(w http.ResponseWriter, r *http.Request) {
 	uid := uint32(varUID)
 	if err != nil {
 		responses.ERROR(w, http.StatusBadRequest, err)
+		return
+	}
+
+	tokenID, err := auth.ExtractTokenID(r)
+	if err != nil {
+		responses.ERROR(w, http.StatusUnauthorized, errors.New("Unauthorized"))
+		return
+	}
+
+	if tokenID != uid {
+		responses.ERROR(w, http.StatusUnauthorized, errors.New(http.StatusText(http.StatusUnauthorized)))
 		return
 	}
 
