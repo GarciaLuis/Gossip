@@ -8,6 +8,7 @@ import (
 	"github.com/garcialuis/Gossip/api/mocks"
 	"github.com/garcialuis/Gossip/api/models"
 
+	activityclient "github.com/garcialuis/ActivityCollector/client"
 	nutriportclient "github.com/garcialuis/Nutriport/sdk/client"
 	nutriportclient_models "github.com/garcialuis/Nutriport/sdk/models"
 	"github.com/gorilla/mux"
@@ -20,6 +21,7 @@ type Server struct {
 	DB              *gorm.DB
 	Router          *mux.Router
 	NutriportClient NutriportClientService
+	ActivityClient  activityclient.ActivityCollectorClient
 }
 
 type NutriportClientService interface {
@@ -64,6 +66,10 @@ func (server *Server) Initialize(Dbdriver, DbUser, DbPassword, DbPort, DbHost, D
 	server.Router = mux.NewRouter()
 
 	server.NutriportClient = nutriportclient.NewClient()
+
+	ActivityCollector := &activityclient.ActivityCollector{}
+	ActivityCollector.Configure()
+	server.ActivityClient = ActivityCollector
 
 	server.InitializeRoutes()
 

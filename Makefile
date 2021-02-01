@@ -17,3 +17,6 @@ kubectl_display:
 
 minikube_env:
 	minikube docker-env
+
+replace_activity_collector:
+	go mod edit -replace github.com/garcialuis/ActivityCollector=/home/luis/Documents/Projects/GoLang/ActivityCollector

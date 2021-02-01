@@ -379,3 +379,29 @@ func (server *Server) GetUserTEE(w http.ResponseWriter, r *http.Request) {
 
 	responses.JSON(w, http.StatusOK, personInfo)
 }
+
+func (server *Server) GetUsersActivity(w http.ResponseWriter, r *http.Request) {
+
+	vars := mux.Vars(r)
+	varUID, err := strconv.ParseUint(vars["id"], 10, 32)
+	uid := uint32(varUID)
+	if err != nil {
+		responses.ERROR(w, http.StatusBadRequest, err)
+		return
+	}
+
+	tokenID, err := auth.ExtractTokenID(r)
+	if err != nil {
+		responses.ERROR(w, http.StatusUnauthorized, errors.New("Unauthorized"))
+		return
+	}
+
+	if tokenID != uid {
+		responses.ERROR(w, http.StatusUnauthorized, errors.New(http.StatusText(http.StatusUnauthorized)))
+		return
+	}
+
+	activityRecord := server.ActivityClient.GetActivity(uint64(uid))
+	// TODO: Add validation/error handling for activityRecord received from client
+	responses.JSON(w, http.StatusOK, activityRecord)
+}

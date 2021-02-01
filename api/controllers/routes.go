@@ -39,6 +39,9 @@ func (s *Server) InitializeRoutes() {
 	// FoodItems:
 	s.Router.HandleFunc("/fooditems", middlewares.SetMiddlewareJSON(s.GetAllFoodItems)).Methods("GET")
 
+	// Get All activity records:
+	s.Router.HandleFunc("/activity/{id}", middlewares.SetMiddlewareJSON(middlewares.SetMiddlewareAuthentication(s.GetUsersActivity))).Methods("GET")
+
 	s.Router.HandleFunc("/private/users", middlewares.SetMiddlewareJSON(middlewares.SetMiddlewareAuthentication(s.GetUsers))).Methods("GET")
 	s.Router.HandleFunc("/private/users/{id}", middlewares.SetMiddlewareJSON(middlewares.SetMiddlewareAuthentication(s.AuthenticatedGetUser))).Methods("GET")
 
