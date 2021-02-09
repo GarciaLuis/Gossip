@@ -319,13 +319,34 @@ func (server *Server) DeleteUser(w http.ResponseWriter, r *http.Request) {
 
 func (server *Server) GetUserBMI(w http.ResponseWriter, r *http.Request) {
 
-	weight := 160.0
-	height := 67.0
+	vars := mux.Vars(r)
+	varUID, err := strconv.ParseUint(vars["id"], 10, 32)
+	uid := uint32(varUID)
+	if err != nil {
+		responses.ERROR(w, http.StatusBadRequest, err)
+		return
+	}
+
+	tokenID, err := auth.ExtractTokenID(r)
+	if err != nil {
+		responses.ERROR(w, http.StatusUnauthorized, errors.New("Unauthorized"))
+		return
+	}
+
+	if tokenID != uid {
+		responses.ERROR(w, http.StatusUnauthorized, errors.New(http.StatusText(http.StatusUnauthorized)))
+		return
+	}
+
+	user := models.User{}
+	weight, height, err := user.GetWeightAndHeight(server.DB, uid)
+
+	if err != nil {
+		responses.ERROR(w, http.StatusBadRequest, err)
+		return
+	}
 
 	personInfo := server.NutriportClient.CalculateImperialBMI(weight, height)
-	fmt.Println("BMI: ", personInfo.BMI, personInfo.BMIDescription)
-
-	fmt.Println(personInfo)
 
 	responses.JSON(w, http.StatusOK, personInfo)
 
@@ -333,13 +354,54 @@ func (server *Server) GetUserBMI(w http.ResponseWriter, r *http.Request) {
 
 func (server *Server) GetUserTEE(w http.ResponseWriter, r *http.Request) {
 
-	age := 25
-	gender := 0 // 0 = male, 1 = female
-	weight := 143.0
-	activityLevel := "moderately active"
+	vars := mux.Vars(r)
+	varUID, err := strconv.ParseUint(vars["id"], 10, 32)
+	uid := uint32(varUID)
+	if err != nil {
+		responses.ERROR(w, http.StatusBadRequest, err)
+		return
+	}
 
-	personInfo := server.NutriportClient.CalculateTotalEnergyExpenditure(age, gender, weight, activityLevel)
-	fmt.Println("TEE: ", personInfo.TEE)
+	tokenID, err := auth.ExtractTokenID(r)
+	if err != nil {
+		responses.ERROR(w, http.StatusUnauthorized, errors.New("Unauthorized"))
+		return
+	}
+
+	if tokenID != uid {
+		responses.ERROR(w, http.StatusUnauthorized, errors.New(http.StatusText(http.StatusUnauthorized)))
+		return
+	}
+
+	user := models.User{}
+	foundUser, err := user.FindUserByID(server.DB, uid)
+	personInfo := server.NutriportClient.CalculateTotalEnergyExpenditure(int(foundUser.Age), int(foundUser.Gender), foundUser.Weight, foundUser.ActivityLevel)
 
 	responses.JSON(w, http.StatusOK, personInfo)
+}
+
+func (server *Server) GetUsersActivity(w http.ResponseWriter, r *http.Request) {
+
+	vars := mux.Vars(r)
+	varUID, err := strconv.ParseUint(vars["id"], 10, 32)
+	uid := uint32(varUID)
+	if err != nil {
+		responses.ERROR(w, http.StatusBadRequest, err)
+		return
+	}
+
+	tokenID, err := auth.ExtractTokenID(r)
+	if err != nil {
+		responses.ERROR(w, http.StatusUnauthorized, errors.New("Unauthorized"))
+		return
+	}
+
+	if tokenID != uid {
+		responses.ERROR(w, http.StatusUnauthorized, errors.New(http.StatusText(http.StatusUnauthorized)))
+		return
+	}
+
+	activityRecord := server.ActivityClient.GetActivity(uint64(uid))
+	// TODO: Add validation/error handling for activityRecord received from client
+	responses.JSON(w, http.StatusOK, activityRecord)
 }

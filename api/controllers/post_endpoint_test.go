@@ -9,6 +9,7 @@ import (
 	"net/http/httptest"
 	"os"
 	"testing"
+	"time"
 
 	"github.com/garcialuis/Gossip/api/models"
 	"gopkg.in/go-playground/assert.v1"
@@ -19,6 +20,7 @@ var testServer = Server{}
 func TestMain(m *testing.M) {
 
 	testServer.InitializeTestServer(os.Getenv("DB_POSTGRES_DRIVER"), os.Getenv("TEST_DB_USER"), os.Getenv("TEST_DB_PASSWORD"), os.Getenv("DB_PORT"), os.Getenv("TEST_DB_HOST"), os.Getenv("TEST_DB_NAME"))
+	time.Sleep(1 * time.Second)
 	os.Exit(m.Run())
 }
 

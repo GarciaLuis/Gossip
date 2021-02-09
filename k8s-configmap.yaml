@@ -5,3 +5,4 @@ metadata:
   namespace: default
 data:
   service.url: "http://nutriport:8085/"
+  service.activitycollectorurl: "http://activitycollector:8086/"
