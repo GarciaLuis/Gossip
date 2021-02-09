@@ -32,8 +32,14 @@ github.com/erikstmartin/go-testdb v0.0.0-20160219214506-8d10e4a1bae5 h1:Yzb9+7DP
 github.com/erikstmartin/go-testdb v0.0.0-20160219214506-8d10e4a1bae5/go.mod h1:a2zkGnVExMxdzMo3M0Hi/3sEU+cWnZpSni0O6/Yb/P0=
 github.com/garcialuis/ActivityCollector v0.0.0-20210201011915-6162d1506cd3 h1:OR+N0Am8Mgy/PALDYwV91gN9/ABPS8AgVrbabfO4S84=
 github.com/garcialuis/ActivityCollector v0.0.0-20210201011915-6162d1506cd3/go.mod h1:VTqggzNIsBrpg/wFL+igQc0p2dBl5hJ8suKRFGl9TNo=
+github.com/garcialuis/ActivityCollector v0.0.0-20210209210315-039dcdf47d1a h1:79kl5tY6e/GsaBejJEcpbSFzBH8x0pMMpIBgpHFsMZc=
+github.com/garcialuis/ActivityCollector v0.0.0-20210209210315-039dcdf47d1a/go.mod h1:VTqggzNIsBrpg/wFL+igQc0p2dBl5hJ8suKRFGl9TNo=
+github.com/garcialuis/ActivityCollector v0.0.0 h1:BG8wOQcR/AfJIXJa2f7Bhp9fFpi/L38U0vdXEWfTBdI=
+github.com/garcialuis/ActivityCollector v0.0.0/go.mod h1:VTqggzNIsBrpg/wFL+igQc0p2dBl5hJ8suKRFGl9TNo=
 github.com/garcialuis/Nutriport v0.0.2 h1:PTVaAf0fmV3YN9ekPqDHzmv+15JYhNlJmCh8T2qNQ80=
 github.com/garcialuis/Nutriport v0.0.2/go.mod h1:yo7uWSYhVRivLsQjUS319FddMh95HYawngwdgo37ngM=
+github.com/garcialuis/Nutriport v0.0.3 h1:2m0a5Ip2YO8oswT951093Rq+P7AclK3u3XYZupOwiGw=
+github.com/garcialuis/Nutriport v0.0.3/go.mod h1:yo7uWSYhVRivLsQjUS319FddMh95HYawngwdgo37ngM=
 github.com/globalsign/mgo v0.0.0-20180905125535-1ca0a4f7cbcb/go.mod h1:xkRDCp4j0OGD1HRkm4kmhM+pmpv3AKq5SU7GMg4oO/Q=
 github.com/globalsign/mgo v0.0.0-20181015135952-eeefdecb41b8/go.mod h1:xkRDCp4j0OGD1HRkm4kmhM+pmpv3AKq5SU7GMg4oO/Q=
 github.com/go-openapi/analysis v0.0.0-20180825180245-b006789cd277/go.mod h1:k70tL6pCuVxPJOHXQ+wIac1FUrvNkHolPie/cLEU6hI=

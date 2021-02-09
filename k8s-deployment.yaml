@@ -38,6 +38,11 @@ spec:
             configMapKeyRef:
               name: gossip-k8s-config
               key: service.url
+        - name: ACTIVITY_SERVICE_URL
+          valueFrom:
+            configMapKeyRef:
+              name: gossip-k8s-config
+              key: service.activitycollectorurl
         resources:
           requests:
             memory: 64Mi
