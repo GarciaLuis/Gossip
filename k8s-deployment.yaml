@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: gossip
-        image: gossip:0.0.2
+        image: garcialuiz/gossip:0.0.4
         ports:
         - containerPort: 8080
         env:
