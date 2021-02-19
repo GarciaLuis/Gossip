@@ -36,6 +36,12 @@ github.com/garcialuis/ActivityCollector v0.0.0-20210209210315-039dcdf47d1a h1:79
 github.com/garcialuis/ActivityCollector v0.0.0-20210209210315-039dcdf47d1a/go.mod h1:VTqggzNIsBrpg/wFL+igQc0p2dBl5hJ8suKRFGl9TNo=
 github.com/garcialuis/ActivityCollector v0.0.0 h1:BG8wOQcR/AfJIXJa2f7Bhp9fFpi/L38U0vdXEWfTBdI=
 github.com/garcialuis/ActivityCollector v0.0.0/go.mod h1:VTqggzNIsBrpg/wFL+igQc0p2dBl5hJ8suKRFGl9TNo=
+github.com/garcialuis/ActivityCollector v0.0.1-0.20210218223046-a99765a9d2bb h1:Yqy2C/n4Maw01041O7uTs3l2G9t/fO4DMWbasGE/v6k=
+github.com/garcialuis/ActivityCollector v0.0.1-0.20210218223046-a99765a9d2bb/go.mod h1:12cKj70yGlYyMon8+7XC1pb14Chzz30k9EhhnELL12k=
+github.com/garcialuis/ActivityCollector v0.0.1 h1:jbEo5dYbVW/IMHFVUnLHtMv+y5XUucqnQma8I18zqLc=
+github.com/garcialuis/ActivityCollector v0.0.1/go.mod h1:12cKj70yGlYyMon8+7XC1pb14Chzz30k9EhhnELL12k=
+github.com/garcialuis/ActivityCollector v0.0.2 h1:73k9PpTROdDFQJoMpRmGHsSciEhmhxT5GJ/ixhMio18=
+github.com/garcialuis/ActivityCollector v0.0.2/go.mod h1:12cKj70yGlYyMon8+7XC1pb14Chzz30k9EhhnELL12k=
 github.com/garcialuis/Nutriport v0.0.2 h1:PTVaAf0fmV3YN9ekPqDHzmv+15JYhNlJmCh8T2qNQ80=
 github.com/garcialuis/Nutriport v0.0.2/go.mod h1:yo7uWSYhVRivLsQjUS319FddMh95HYawngwdgo37ngM=
 github.com/garcialuis/Nutriport v0.0.3 h1:2m0a5Ip2YO8oswT951093Rq+P7AclK3u3XYZupOwiGw=
@@ -233,6 +239,7 @@ github.com/stretchr/testify v1.3.0/go.mod h1:M5WIy9Dh21IEIfnGCwXGc5bZfKNJtfHm1UV
 github.com/stretchr/testify v1.4.0/go.mod h1:j7eGeouHqKxXV5pUuKE4zz7dFj8WfuZ+81PSLYec5m4=
 github.com/stretchr/testify v1.6.1 h1:hDPOHmpOpP40lSULcqw7IrRb/u7w6RpDC9399XyoNd0=
 github.com/stretchr/testify v1.6.1/go.mod h1:6Fq8oRcR53rry900zMqJjRRixrwX3KX962/h/Wwjteg=
+github.com/stretchr/testify v1.7.0/go.mod h1:6Fq8oRcR53rry900zMqJjRRixrwX3KX962/h/Wwjteg=
 github.com/tidwall/pretty v1.0.0 h1:HsD+QiTn7sK6flMKIvNmpqz1qrpP3Ps6jOKIKMooyg4=
 github.com/tidwall/pretty v1.0.0/go.mod h1:XNkn88O1ChpSDQmQeStsy+sBenx6DDtFZJxhVysOjyk=
 github.com/vektah/gqlparser v1.1.2/go.mod h1:1ycwN7Ij5njmMkPPAOaRFY4rET2Enx7IkVv3vaXspKw=

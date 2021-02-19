@@ -384,7 +384,14 @@ func (server *Server) GetUsersActivity(w http.ResponseWriter, r *http.Request) {
 
 	vars := mux.Vars(r)
 	varUID, err := strconv.ParseUint(vars["id"], 10, 32)
+	if err != nil {
+		responses.ERROR(w, http.StatusBadRequest, err)
+		return
+	}
+
 	uid := uint32(varUID)
+
+	activityID, err := strconv.ParseUint(vars["activityid"], 10, 64)
 	if err != nil {
 		responses.ERROR(w, http.StatusBadRequest, err)
 		return
@@ -401,7 +408,70 @@ func (server *Server) GetUsersActivity(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	activityRecord := server.ActivityClient.GetActivity(uint64(uid))
+	activityRecord := server.ActivityClient.GetActivity(uint64(uid), activityID)
 	// TODO: Add validation/error handling for activityRecord received from client
 	responses.JSON(w, http.StatusOK, activityRecord)
+}
+
+func (server *Server) GetUsersActivities(w http.ResponseWriter, r *http.Request) {
+
+	vars := mux.Vars(r)
+	varUID, err := strconv.ParseUint(vars["id"], 10, 32)
+	if err != nil {
+		responses.ERROR(w, http.StatusBadRequest, err)
+		return
+	}
+	uid := uint32(varUID)
+
+	tokenID, err := auth.ExtractTokenID(r)
+	if err != nil {
+		responses.ERROR(w, http.StatusUnauthorized, errors.New("Unauthorized"))
+		return
+	}
+
+	if tokenID != uid {
+		responses.ERROR(w, http.StatusUnauthorized, errors.New(http.StatusText(http.StatusUnauthorized)))
+		return
+	}
+
+	activities := server.ActivityClient.GetActivities(uint64(uid))
+	// TODO: Add validation/error handling for data received from client
+	responses.JSON(w, http.StatusOK, activities)
+}
+
+func (server *Server) GetUsersActivitiesInRange(w http.ResponseWriter, r *http.Request) {
+
+	vars := mux.Vars(r)
+	varUID, err := strconv.ParseUint(vars["id"], 10, 32)
+	if err != nil {
+		responses.ERROR(w, http.StatusBadRequest, err)
+		return
+	}
+	uid := uint32(varUID)
+
+	starttime, err := strconv.ParseUint(vars["starttime"], 10, 64)
+	if err != nil {
+		responses.ERROR(w, http.StatusBadRequest, err)
+		return
+	}
+	endtime, err := strconv.ParseUint(vars["endtime"], 10, 64)
+	if err != nil {
+		responses.ERROR(w, http.StatusBadRequest, err)
+		return
+	}
+
+	tokenID, err := auth.ExtractTokenID(r)
+	if err != nil {
+		responses.ERROR(w, http.StatusUnauthorized, errors.New("Unauthorized"))
+		return
+	}
+
+	if tokenID != uid {
+		responses.ERROR(w, http.StatusUnauthorized, errors.New(http.StatusText(http.StatusUnauthorized)))
+		return
+	}
+
+	activities := server.ActivityClient.GetActivitiesInRange(uint64(uid), starttime, endtime)
+	// TODO: Add validation/error handling for data received from client
+	responses.JSON(w, http.StatusOK, activities)
 }
